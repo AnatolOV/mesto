@@ -76,6 +76,12 @@ function handleFormSubmitAdd(evt) {
   elementRemove.forEach((e) =>
     e.addEventListener('click', () => e.closest('.elements__element').remove())
   );
+  like = document.querySelectorAll('.elements__like');
+  like.forEach((e) =>
+    e.addEventListener('click', (e) => {
+      console.log(e.target), e.target.classList.toggle('elements__like_active');
+    })
+  );
   closePopUpAdd();
 }
 

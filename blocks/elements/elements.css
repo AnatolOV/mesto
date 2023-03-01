@@ -1,7 +1,8 @@
 .elements {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  gap: 17px;
   padding-top: 51px;
   width: 100%;
 }
