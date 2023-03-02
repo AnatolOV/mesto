@@ -1,5 +1,5 @@
 //pop-up для редактирования профиля
-let popUpBoxEdit = document.querySelector('#edit');
+const popUpBoxEdit = document.querySelector('#edit');
 let profileEditButton = document.querySelector('.profile__edit-button');
 let popUpClose = popUpBoxEdit.querySelector('.pop-up__close');
 let profileName = document.querySelector('.profile__name');
@@ -49,14 +49,14 @@ let popUpAddNamePlace = popUpAddBox.querySelector('.pop-up__field_name_place');
 let popUpAddReferenceImage = popUpAddBox.querySelector(
   '.pop-up__field_reference_image'
 );
+popUpAddNamePlace.placeholder = 'Название';
+popUpAddReferenceImage.placeholder = 'Ссылка на картинку';
 let popUpAddForm = popUpAddBox.querySelector('.pop-up__form');
 let elemetTemplate;
 let elementInElements;
 
 function openPopUpAdd() {
-  popUpAddBox.classList.add('pop-up__open');
-  popUpAddNamePlace.placeholder = 'Название';
-  popUpAddReferenceImage.placeholder = 'Ссылка на картинку';
+  popUpAddBox.classList.add('pop-up__open');  
 }
 addCardsButton.addEventListener('click', openPopUpAdd);
 
