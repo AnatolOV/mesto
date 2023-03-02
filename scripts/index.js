@@ -1,14 +1,14 @@
 //pop-up для редактирования профиля
 const popUpBoxEdit = document.querySelector('#edit');
-let profileEditButton = document.querySelector('.profile__edit-button');
-let popUpClose = popUpBoxEdit.querySelector('.pop-up__close');
-let profileName = document.querySelector('.profile__name');
-let profileProfession = document.querySelector('.profile__profession');
-let popUpNameHuman = popUpBoxEdit.querySelector('.pop-up__field_name_human');
-let popUpOccupationHuman = popUpBoxEdit.querySelector(
+const profileEditButton = document.querySelector('.profile__edit-button');
+const popUpClose = popUpBoxEdit.querySelector('.pop-up__close');
+const profileName = document.querySelector('.profile__name');
+const profileProfession = document.querySelector('.profile__profession');
+const popUpNameHuman = popUpBoxEdit.querySelector('.pop-up__field_name_human');
+const popUpOccupationHuman = popUpBoxEdit.querySelector(
   '.pop-up__field_name_occupation'
 );
-let popUpFormEdit = popUpBoxEdit.querySelector('.pop-up__form');
+const popUpFormEdit = popUpBoxEdit.querySelector('.pop-up__form');
 
 function openPopUpEdit() {
   popUpBoxEdit.classList.add('pop-up__open');
@@ -32,26 +32,25 @@ popUpClose.addEventListener('click', closePopUpEdit);
 popUpFormEdit.addEventListener('submit', handleFormSubmit);
 
 //pop-up с фотографией места
-let popUpImage = document.querySelector('#photo');
-let popUpImageClose = popUpImage.querySelector('.pop-up__close');
-let imageInPopUp = popUpImage.querySelector('.pop-up__image');
-let namePopUpImage = popUpImage.querySelector('.pop-up__name-image');
-// console.log(cards);
+const popUpImage = document.querySelector('#photo');
+const popUpImageClose = popUpImage.querySelector('.pop-up__close');
+const imageInPopUp = popUpImage.querySelector('.pop-up__image');
+const namePopUpImage = popUpImage.querySelector('.pop-up__name-image');
 
 //pop-up для добавления карточек
-let containerOfElements = document.querySelector('.elements');
-let elementInContainer =
+const containerOfElements = document.querySelector('.elements');
+const elementInContainer =
   containerOfElements.querySelectorAll('.elements__element');
-let popUpAddBox = document.querySelector('#add');
-let addCardsButton = document.querySelector('.profile__add-button');
-let popUpAddClose = popUpAddBox.querySelector('.pop-up__close');
-let popUpAddNamePlace = popUpAddBox.querySelector('.pop-up__field_name_place');
-let popUpAddReferenceImage = popUpAddBox.querySelector(
+const popUpAddBox = document.querySelector('#add');
+const addCardsButton = document.querySelector('.profile__add-button');
+const popUpAddClose = popUpAddBox.querySelector('.pop-up__close');
+const popUpAddNamePlace = popUpAddBox.querySelector('.pop-up__field_name_place');
+const popUpAddReferenceImage = popUpAddBox.querySelector(
   '.pop-up__field_reference_image'
 );
 popUpAddNamePlace.placeholder = 'Название';
 popUpAddReferenceImage.placeholder = 'Ссылка на картинку';
-let popUpAddForm = popUpAddBox.querySelector('.pop-up__form');
+const popUpAddForm = popUpAddBox.querySelector('.pop-up__form');
 let elemetTemplate;
 let elementInElements;
 
@@ -154,6 +153,7 @@ function fillContainer(array) {
 }
 fillContainer(initialCards);
 cards = document.querySelectorAll('.elements__image');
+
 // удаление карточек по нажатию на корзину
 let elementRemove = Array.from(document.querySelectorAll('.elements__bin'));
 elementRemove.forEach((e) =>
