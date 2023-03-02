@@ -11,13 +11,13 @@ let popUpOccupationHuman = popUpBoxEdit.querySelector(
 let popUpFormEdit = popUpBoxEdit.querySelector('.pop-up__form');
 
 function openPopUpEdit() {
-  popUpBoxEdit.classList.add('pop-up_active');
+  popUpBoxEdit.classList.add('pop-up__open');
   popUpNameHuman.value = profileName.textContent;
   popUpOccupationHuman.value = profileProfession.textContent;
 }
 
 function closePopUpEdit() {
-  popUpBoxEdit.classList.remove('pop-up_active');
+  popUpBoxEdit.classList.remove('pop-up__open');
 }
 
 function handleFormSubmit(evt) {
@@ -54,14 +54,14 @@ let elemetTemplate;
 let elementInElements;
 
 function openPopUpAdd() {
-  popUpAddBox.classList.add('pop-up_active');
+  popUpAddBox.classList.add('pop-up__open');
   popUpAddNamePlace.placeholder = 'Название';
   popUpAddReferenceImage.placeholder = 'Ссылка на картинку';
 }
 addCardsButton.addEventListener('click', openPopUpAdd);
 
 function closePopUpAdd() {
-  popUpAddBox.classList.remove('pop-up_active');
+  popUpAddBox.classList.remove('pop-up__open');
   popUpAddReferenceImage.value = '';
   popUpAddNamePlace.value = '';
 }
@@ -92,7 +92,7 @@ function handleFormSubmitAdd(evt) {
     cards.forEach((e) =>
       e.addEventListener('click', (e) => {
         let cards = document.querySelectorAll('.elements__image');
-        popUpImage.classList.add('pop-up_active');
+        popUpImage.classList.add('pop-up__open');
         imageInPopUp.src = e.target.src;
         imageInPopUp.alt = e.target.alt;
         namePopUpImage.textContent = e.target
@@ -171,7 +171,7 @@ like.forEach((e) =>
 cards.forEach((e) =>
   e.addEventListener('click', (e) => {
     let cards = document.querySelectorAll('.elements__image');
-    popUpImage.classList.add('pop-up_active');
+    popUpImage.classList.add('pop-up__open');
     imageInPopUp.src = e.target.src;
     imageInPopUp.alt = e.target.alt;
     namePopUpImage.textContent = e.target
@@ -181,7 +181,7 @@ cards.forEach((e) =>
 );
 
 function closePopImage() {
-  popUpImage.classList.remove('pop-up_active');
+  popUpImage.classList.remove('pop-up__open');
 }
 
 popUpImageClose.addEventListener('click', (e) => closePopImage());
