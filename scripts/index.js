@@ -31,6 +31,13 @@ profileEditButton.addEventListener('click', openPopUpEdit);
 popUpClose.addEventListener('click', closePopUpEdit);
 popUpFormEdit.addEventListener('submit', handleFormSubmit);
 
+//pop-up с фотографией места
+let popUpImage = document.querySelector('#photo');
+let popUpImageClose = popUpImage.querySelector('.pop-up__close');
+let imageInPopUp = popUpImage.querySelector('.pop-up__image');
+let namePopUpImage = popUpImage.querySelector('.pop-up__name-image');
+// console.log(cards);
+
 //pop-up для добавления карточек
 let containerOfElements = document.querySelector('.elements');
 let elementInContainer =
@@ -62,32 +69,50 @@ popUpAddClose.addEventListener('click', closePopUpAdd);
 
 function handleFormSubmitAdd(evt) {
   evt.preventDefault();
-  elemetTemplate = document.querySelector('#element').content;
-  elementInElements = elemetTemplate
-    .querySelector('.elements__element')
-    .cloneNode(true);
-  elementInElements.querySelector('.elements__image').src =
-    popUpAddReferenceImage.value;
-  elementInElements
-    .querySelector('.elements__container')
-    .querySelector('.elements__name').textContent = popUpAddNamePlace.value;
-  containerOfElements.prepend(elementInElements);
-  elementRemove = Array.from(document.querySelectorAll('.elements__bin'));
-  elementRemove.forEach((e) =>
-    e.addEventListener('click', () => e.closest('.elements__element').remove())
-  );
-  like = document.querySelectorAll('.elements__like');
-  like.forEach((e) =>
-    e.addEventListener('click', (e) => {
-      console.log(e.target), e.target.classList.toggle('elements__like_active');
-    })
-  );
+  if (popUpAddNamePlace.value != '' && popUpAddReferenceImage.value != '') {
+    elemetTemplate = document.querySelector('#element').content;
+    elementInElements = elemetTemplate
+      .querySelector('.elements__element')
+      .cloneNode(true);
+    elementInElements.querySelector('.elements__image').src =
+      popUpAddReferenceImage.value;
+    elementInElements
+      .querySelector('.elements__container')
+      .querySelector('.elements__name').textContent = popUpAddNamePlace.value;
+    containerOfElements.prepend(elementInElements);
+    elementRemove = Array.from(document.querySelectorAll('.elements__bin'));
+    elementRemove.forEach((e) =>
+      e.addEventListener('click', () =>
+        e.closest('.elements__element').remove()
+      )
+    );
+
+    cards = document.querySelectorAll('.elements__image');
+
+    cards.forEach((e) =>
+      e.addEventListener('click', (e) => {
+        let cards = document.querySelectorAll('.elements__image');
+        popUpImage.classList.add('pop-up_active');
+        imageInPopUp.src = e.target.src;
+        imageInPopUp.alt = e.target.alt;
+        namePopUpImage.textContent = e.target
+          .closest('.elements__element')
+          .querySelector('.elements__name').textContent;
+      })
+    );
+
+    like = document.querySelectorAll('.elements__like');
+    like.forEach((e) =>
+      e.addEventListener('click', (e) => {
+        e.target.classList.toggle('elements__like_active');
+      })
+    );
+  }
   closePopUpAdd();
 }
 
 popUpAddForm.addEventListener('submit', handleFormSubmitAdd);
 
-// заполнение карточек информацией
 const initialCards = [
   {
     name: 'Архыз',
@@ -128,14 +153,35 @@ function fillContainer(array) {
   }
 }
 fillContainer(initialCards);
-
-// удаление карточек
-
+cards = document.querySelectorAll('.elements__image');
+// удаление карточек по нажатию на корзину
 let elementRemove = Array.from(document.querySelectorAll('.elements__bin'));
 elementRemove.forEach((e) =>
   e.addEventListener('click', () => e.closest('.elements__element').remove())
 );
 
-//ставим лайки
+//ставим лайки по нажатию на сердечко
 let like = document.querySelectorAll('.elements__like');
-like.forEach((e) => e.addEventListener('click', (e) =>{console.log(e.target), e.target.classList.toggle('elements__like_active')}));
+like.forEach((e) =>
+  e.addEventListener('click', (e) => {
+    console.log(e.target), e.target.classList.toggle('elements__like_active');
+  })
+);
+
+cards.forEach((e) =>
+  e.addEventListener('click', (e) => {
+    let cards = document.querySelectorAll('.elements__image');
+    popUpImage.classList.add('pop-up_active');
+    imageInPopUp.src = e.target.src;
+    imageInPopUp.alt = e.target.alt;
+    namePopUpImage.textContent = e.target
+      .closest('.elements__element')
+      .querySelector('.elements__name').textContent;
+  })
+);
+
+function closePopImage() {
+  popUpImage.classList.remove('pop-up_active');
+}
+
+popUpImageClose.addEventListener('click', (e) => closePopImage());
