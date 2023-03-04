@@ -103,7 +103,7 @@ const initialCards = [
 popUpImageClose.addEventListener('click', () => closePopUp(popUpImage));
 
 createCard(initialCards);
-
+//
 function createCard(array) {
   elementInElements = elemetTemplate
     .querySelector('.elements__element')
