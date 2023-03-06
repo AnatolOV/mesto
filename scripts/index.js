@@ -135,14 +135,6 @@ function createCard(array) {
       .closest('.elements__element')
       .querySelector('.elements__name').textContent;
   });
-  cardImage.addEventListener('click', () => {
-    openPopUp(popUpAddNamePlace);
-    elementInElements.querySelector('.elements__image').src = cardImage.src;
-    elementInElements.querySelector('.elements__image').alt = cardImage.alt;
-    elementInElements
-      .querySelector('.elements__container')
-      .querySelector('.elements__name').textContent = cardName.textContent;
-  });
 
   return elementInElements;
 }
