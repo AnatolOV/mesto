@@ -13,10 +13,12 @@
   <section class="pop-up" id="add">
     <div class="pop-up__container">
       <button class="pop-up__close" type="button"></button>
-      <form action="submit" class="pop-up__form" name="addCard">
+      <form action="submit" class="pop-up__form" novalidate name="addCard">
         <h2 class="pop-up__name">Новое место</h2>
-        <input type="text" name="name" class="pop-up__field pop-up__field_name_place" />
-        <input type="text" name="reference" class="pop-up__field pop-up__field_reference_image" />
+        <input type="text" required minlength="2" maxlength="30" name="name" class="pop-up__field pop-up__field_name_place" />
+        <span class="pop-up__input-error pop-up__input-error-first"></span>
+        <input type="url" name="reference" class="pop-up__field pop-up__field_reference_image" />
+        <span class="pop-up__input-error pop-up__input-error-second"></span>
         <button class="pop-up__save" type="submit">Создать</button>
       </form>
     </div>
@@ -24,10 +26,12 @@
   <section class="pop-up" id="edit">
     <div class="pop-up__container">
       <button class="pop-up__close" type="button"></button>
-      <form action="submit" class="pop-up__form" name="editprofile">
+      <form action="submit" class="pop-up__form" novalidate name="editprofile">
         <h2 class="pop-up__name">Редактировать профиль</h2>
-        <input type="text" name="human" class="pop-up__field pop-up__field_name_human" />
-        <input type="text" name="occupation" class="pop-up__field pop-up__field_name_occupation" />
+        <input type="text" required minlength="2" maxlength="40" name="human" class="pop-up__field pop-up__field_name_human" />
+        <span class="pop-up__input-error pop-up__input-error-first"></span>
+        <input type="text" required minlength="2" maxlength="200" name="occupation" class="pop-up__field pop-up__field_name_occupation" />
+        <span class="pop-up__input-error pop-up__input-error-second"></span>
         <button class="pop-up__save" type="submit">Сохранить</button>
       </form>
     </div>
@@ -73,6 +77,7 @@
     </footer>
   </div>
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

@@ -138,3 +138,16 @@ function createCard(array) {
 
   return elementInElements;
 }
+
+/* закрытие по ESC */
+document.body.addEventListener('keyup', function (e) {
+  let key = e.keyCode;
+  if (key == 27) {
+    document.querySelector('.pop-up__open').classList.remove('pop-up__open');
+  }
+});
+/* закрытие по клику на фоне */
+document.body.addEventListener('click', function (e) {
+  if (e.target.closest('.pop-up') && e.target == e.target.closest('.pop-up'))
+    closePopUp(e.target.closest('.pop-up'));
+});
