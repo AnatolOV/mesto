@@ -148,6 +148,7 @@ document.body.addEventListener('keyup', function (e) {
 });
 /* закрытие по клику на фоне */
 document.body.addEventListener('click', function (e) {
-  if (e.target.closest('.pop-up') && e.target == e.target.closest('.pop-up'))
+  if (e.target.closest('.pop-up') && e.target == e.target.closest('.pop-up')) {
     closePopUp(e.target.closest('.pop-up'));
+  }
 });
