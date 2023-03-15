@@ -36,8 +36,12 @@ function openPopUp(arg) {
 }
 function closePopUp(arg) {
   arg.classList.remove('pop-up__open');
-  arg.querySelector('form').reset();
-  arg.querySelectorAll('span').forEach((e) => hideInputError(e));
+  if (arg.querySelector('form')) {
+    arg.querySelector('form').reset();
+  }
+  if (arg.querySelectorAll('span')) {
+    arg.querySelectorAll('span').forEach((e) => hideInputError(e));
+  }
 }
 function handleFormSubmit(evt) {
   evt.preventDefault();
@@ -50,7 +54,6 @@ profileEditButton.addEventListener('click', (e) => {
   openPopUp(popUpBoxEdit);
   popUpNameHuman.value = profileName.textContent;
   popUpOccupationHuman.value = profileProfession.textContent;
-
 });
 
 popUpClose.addEventListener('click', () => closePopUp(popUpBoxEdit));
