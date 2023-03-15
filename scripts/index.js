@@ -36,6 +36,8 @@ function openPopUp(arg) {
 }
 function closePopUp(arg) {
   arg.classList.remove('pop-up__open');
+  arg.querySelector('form').reset();
+  arg.querySelectorAll('span').forEach((e) => hideInputError(e));
 }
 function handleFormSubmit(evt) {
   evt.preventDefault();
@@ -44,10 +46,11 @@ function handleFormSubmit(evt) {
   closePopUp(popUpBoxEdit);
 }
 
-profileEditButton.addEventListener('click', () => {
+profileEditButton.addEventListener('click', (e) => {
   openPopUp(popUpBoxEdit);
   popUpNameHuman.value = profileName.textContent;
   popUpOccupationHuman.value = profileProfession.textContent;
+
 });
 
 popUpClose.addEventListener('click', () => closePopUp(popUpBoxEdit));
@@ -142,7 +145,7 @@ function createCard(array) {
 /* закрытие по ESC */
 document.body.addEventListener('keyup', function (e) {
   let key = e.keyCode;
-  if (key == 27) {
+  if (key == 27 && document.querySelector('.pop-up__open')) {
     document.querySelector('.pop-up__open').classList.remove('pop-up__open');
   }
 });

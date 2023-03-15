@@ -15,7 +15,8 @@ const isValid = (el) => {
     hideInputError(el.nextElementSibling);
   }
 };
-const activeButton = (el) => {
+const activeButton = (el) => { 
+  
   let arr = Array.from(el.closest('form').querySelectorAll('.pop-up__field'));
   if (!(arr[0].validity.valid == true && arr[1].validity.valid == true)) {
     el.setAttribute('disabled', 'disabled');
@@ -34,4 +35,13 @@ const enableValidation = (arrOfButtons, arrayOfInputs) => {
   });
   arrOfButtons.forEach((e) => activeButton(e));
 };
+
+//выключаем кнопку при повторном открытии pop-up-ов
+addCardsButton.addEventListener('click',()=> {
+  Array.from(buttons).forEach((e)=> activeButton(e));
+});
+profileEditButton.addEventListener('click', () => {
+  Array.from(buttons).forEach((e) => activeButton(e));
+});
+
 enableValidation(buttons, arrayOfInputs);
