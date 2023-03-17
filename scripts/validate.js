@@ -1,47 +1,100 @@
-const arrayOfInputs = document.querySelectorAll('.pop-up__field'); // находим все поля ввода на странице
-const buttons = document.querySelectorAll('.pop-up__save'); // находим все кнопки в pop-up на странице
-const showInputError = (element, errorMessage) => {
-  element.classList.add('pop-up__input-error_active');
-  element.textContent = errorMessage;
-};
-const hideInputError = (element) => {
-  element.classList.remove('pop-up__input-error_active');
-  element.textContent = '';
-};
-const isValid = (el) => {
-  if (!el.validity.valid) {
-    showInputError(el.nextElementSibling, el.validationMessage);
-  } else {
-    hideInputError(el.nextElementSibling);
-  }
-};
-const activeButton = (el) => { 
+const showInputError = (
+  formElement,
+  inputElement,
+  errorMessage,
+  errorClass
+) => {
   
-  let arr = Array.from(el.closest('form').querySelectorAll('.pop-up__field'));
-  if (!(arr[0].validity.valid == true && arr[1].validity.valid == true)) {
-    el.setAttribute('disabled', 'disabled');
-    el.classList.add('pop-up__save_inactive');
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add(`${errorClass}`);
+};
+
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  errorElement.classList.remove('pop-up__input-error_active');
+  errorElement.textContent = '';
+};
+
+const checkInputValidity = (formElement, inputElement, errorClass) => {
+  if (!inputElement.validity.valid) {
+    showInputError(
+      formElement,
+      inputElement,
+      inputElement.validationMessage,
+      errorClass
+    );
   } else {
-    el.removeAttribute('disabled', 'disabled');
-    el.classList.remove('pop-up__save_inactive');
+    hideInputError(formElement, inputElement);
   }
 };
-const enableValidation = (arrOfButtons, arrayOfInputs) => {
-  arrayOfInputs.forEach((e) => {
-    e.addEventListener('input', () => {
-      activeButton(e.closest('form').querySelector('button'));
-      isValid(e);
+
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+    return !inputElement.validity.valid;
+  });
+}
+function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
+  if (hasInvalidInput(inputList)) {
+    buttonElement.classList.add(`${inactiveButtonClass}`);
+  } else {
+    buttonElement.classList.remove(`${inactiveButtonClass}`);
+  }
+}
+
+const setEventListeners = (
+  formElement,
+  inputSelector,
+  submitButtonSelector,
+  inactiveButtonClass,
+  errorClass
+) => {
+  const inputList = Array.from(
+    formElement.querySelectorAll(`${inputSelector}`)
+  );
+  const buttonElement = formElement.querySelector(`${submitButtonSelector}`);
+  toggleButtonState(inputList, buttonElement, inactiveButtonClass);
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement, errorClass);
+      toggleButtonState(inputList, buttonElement, inactiveButtonClass);
     });
   });
-  arrOfButtons.forEach((e) => activeButton(e));
 };
 
-//выключаем кнопку при повторном открытии pop-up-ов
-addCardsButton.addEventListener('click',()=> {
-  Array.from(buttons).forEach((e)=> activeButton(e));
-});
-profileEditButton.addEventListener('click', () => {
-  Array.from(buttons).forEach((e) => activeButton(e));
-});
+const enableValidation = (arr) => {
+  let {
+    formSelector,
+    inputSelector,
+    submitButtonSelector,
+    inactiveButtonClass,
+    errorClass,
+  } = arr;
+ 
+  const formList = Array.from(document.querySelectorAll(`${formSelector}`));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+    formList.forEach((fieldSet) => {
+      setEventListeners(
+        fieldSet,
+        inputSelector,
+        submitButtonSelector,
+        inactiveButtonClass,
+        errorClass
+      );
+    });
+  });
+  addCardsButton.addEventListener('click', () => enableValidation(arr)); //деактивировал кнопку в поп апе добавления новой карточки
+};
+//массив с настройками
+const arrOfSettings = {
+  formSelector: '.pop-up__form',
+  inputSelector: '.pop-up__field',
+  submitButtonSelector: '.pop-up__save',
+  inactiveButtonClass: 'pop-up__save_inactive',
+  errorClass: 'pop-up__input-error_active',
+};
 
-enableValidation(buttons, arrayOfInputs);
+enableValidation(arrOfSettings);

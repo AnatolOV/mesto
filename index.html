@@ -15,10 +15,12 @@
       <button class="pop-up__close" type="button"></button>
       <form action="submit" class="pop-up__form" novalidate name="addCard">
         <h2 class="pop-up__name">Новое место</h2>
-        <input type="text" required minlength="2" maxlength="30" name="name" class="pop-up__field pop-up__field_name_place" />
-        <span class="pop-up__input-error pop-up__input-error-first"></span>
-        <input type="url" required name="reference" class="pop-up__field pop-up__field_reference_image" />
-        <span class="pop-up__input-error pop-up__input-error-second"></span>
+        <input type="text" required minlength="2" maxlength="30" name="name" id="email-input"
+          class="pop-up__field pop-up__field_name_place" />
+        <span class="pop-up__input-error pop-up__input-error-first email-input-error"></span>
+        <input type="url" required name="reference" id="reference-input"
+          class="pop-up__field pop-up__field_reference_image" />
+        <span class="pop-up__input-error pop-up__input-error-second reference-input-error"></span>
         <button class="pop-up__save" type="submit">Создать</button>
       </form>
     </div>
@@ -28,10 +30,12 @@
       <button class="pop-up__close" type="button"></button>
       <form action="submit" class="pop-up__form" novalidate name="editprofile">
         <h2 class="pop-up__name">Редактировать профиль</h2>
-        <input type="text" required minlength="2" maxlength="40" name="human" class="pop-up__field pop-up__field_name_human" />
-        <span class="pop-up__input-error pop-up__input-error-first"></span>
-        <input type="text" required minlength="2" maxlength="200" name="occupation" class="pop-up__field pop-up__field_name_occupation" />
-        <span class="pop-up__input-error pop-up__input-error-second"></span>
+        <input type="text" required minlength="2" maxlength="40" name="human" id="human-input"
+          class="pop-up__field pop-up__field_name_human" />
+        <span class="pop-up__input-error pop-up__input-error-first human-input-error"></span>
+        <input type="text" required minlength="2" maxlength="200" name="occupation" id="occupation-input"
+          class="pop-up__field pop-up__field_name_occupation" />
+        <span class="pop-up__input-error pop-up__input-error-second occupation-input-error"></span>
         <button class="pop-up__save" type="submit">Сохранить</button>
       </form>
     </div>

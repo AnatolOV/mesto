@@ -36,12 +36,7 @@ function openPopUp(arg) {
 }
 function closePopUp(arg) {
   arg.classList.remove('pop-up__open');
-  if (arg.querySelector('form')) {
-    arg.querySelector('form').reset();
-  }
-  if (arg.querySelectorAll('span')) {
-    arg.querySelectorAll('span').forEach((e) => hideInputError(e));
-  }
+  // arg.querySelector('form').reset();
 }
 function handleFormSubmit(evt) {
   evt.preventDefault();
