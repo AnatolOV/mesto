@@ -1,3 +1,4 @@
+// посмотрите, пожалуйста, вопросы в коде
 const showInputError = (
   formElement,
   inputElement,
@@ -10,9 +11,9 @@ const showInputError = (
   errorElement.classList.add(`${errorClass}`);
 };
 
-const hideInputError = (formElement, inputElement) => {
+const hideInputError = (formElement, inputElement, errorClass) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  errorElement.classList.remove('pop-up__input-error_active');
+  errorElement.classList.remove(`${errorClass}`);
   errorElement.textContent = '';
 };
 
@@ -25,7 +26,7 @@ const checkInputValidity = (formElement, inputElement, errorClass) => {
       errorClass
     );
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, errorClass);
   }
 };
 
@@ -37,8 +38,10 @@ function hasInvalidInput(inputList) {
 function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
   if (hasInvalidInput(inputList)) {
     buttonElement.classList.add(`${inactiveButtonClass}`);
+    buttonElement.disabled = true;
   } else {
     buttonElement.classList.remove(`${inactiveButtonClass}`);
+    buttonElement.disabled = false;
   }
 }
 
@@ -62,14 +65,14 @@ const setEventListeners = (
   });
 };
 
-const enableValidation = (arr) => {
-  let {
+const enableValidation = (object) => {
+  const {
     formSelector,
     inputSelector,
     submitButtonSelector,
     inactiveButtonClass,
     errorClass,
-  } = arr;
+  } = object;
  
   const formList = Array.from(document.querySelectorAll(`${formSelector}`));
   formList.forEach((formElement) => {
@@ -86,7 +89,8 @@ const enableValidation = (arr) => {
       );
     });
   });
-  addCardsButton.addEventListener('click', () => enableValidation(arr)); //деактивировал кнопку в поп апе добавления новой карточки
+  // addCardsButton.addEventListener('click', () => enableValidation(object)); //деактивировал кнопку в поп апе добавления новой карточки
+  // если убираем эту строку, то кнопка активна при повторном открытии, а так быть не должно??
 };
 //массив с настройками
 const arrOfSettings = {
