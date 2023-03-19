@@ -1,4 +1,3 @@
-// Спасибо за понятные комментарии!!!
 const showInputError = (
   formElement,
   inputElement,
