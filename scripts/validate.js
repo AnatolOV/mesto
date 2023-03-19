@@ -1,11 +1,10 @@
-// посмотрите, пожалуйста, вопросы в коде
+// Спасибо за понятные комментарии!!!
 const showInputError = (
   formElement,
   inputElement,
   errorMessage,
   errorClass
 ) => {
-  
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(`${errorClass}`);
@@ -73,7 +72,7 @@ const enableValidation = (object) => {
     inactiveButtonClass,
     errorClass,
   } = object;
- 
+
   const formList = Array.from(document.querySelectorAll(`${formSelector}`));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', function (evt) {
@@ -89,8 +88,6 @@ const enableValidation = (object) => {
       );
     });
   });
-  // addCardsButton.addEventListener('click', () => enableValidation(object)); //деактивировал кнопку в поп апе добавления новой карточки
-  // если убираем эту строку, то кнопка активна при повторном открытии, а так быть не должно??
 };
 //массив с настройками
 const arrOfSettings = {

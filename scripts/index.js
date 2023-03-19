@@ -16,10 +16,11 @@ const popUpImageClose = popUpImage.querySelector('.pop-up__close');
 const imageInPopUp = popUpImage.querySelector('.pop-up__image');
 const namePopUpImage = popUpImage.querySelector('.pop-up__name-image');
 const containerOfElements = document.querySelector('.elements');
-const elementInContainer =
-  containerOfElements.querySelectorAll('.elements__element');
+// const elementInContainer =
+//   containerOfElements.querySelectorAll('.elements__element');
 const popUpAddBox = document.querySelector('#add');
 const addCardsButton = document.querySelector('.profile__add-button');
+const popUpAddBoxSaveButton = popUpAddBox.querySelector('.pop-up__save');
 const popUpAddClose = popUpAddBox.querySelector('.pop-up__close');
 const popUpAddNamePlace = popUpAddBox.querySelector(
   '.pop-up__field_name_place'
@@ -39,7 +40,7 @@ function openPopUp(popup) {
 function closePopUp(popup) {
   popup.classList.remove('pop-up__open');
   document.removeEventListener('keydown', closeByEscape);
-  document.removeEventListener('click', closeByClick); 
+  document.removeEventListener('click', closeByClick);
 }
 function handleFormSubmitEdit(evt) {
   evt.preventDefault();
@@ -96,8 +97,10 @@ function handleFormSubmitAdd(evt) {
   });
   containerOfElements.prepend(card);
 
-  closePopUp(popUpAddBox); //??? не понял комментарий по деактивации кнопки только,"после этого нужно деактивировать кнопку только. 
-  // Больше нигде не нужно" - что значит больше нигде не нужно, что не нужно?
+  closePopUp(popUpAddBox);
+
+  popUpAddBoxSaveButton.classList.add('pop-up__save_inactive');
+  popUpAddBoxSaveButton.disabled = true;
 
   evt.target.reset();
 }
@@ -113,7 +116,6 @@ initialCards.forEach((item) => {
 });
 
 function createCard(item) {
-  //вааа
   const elementInElements = elemetTemplate
     .querySelector('.elements__element')
     .cloneNode(true);
@@ -130,7 +132,7 @@ function createCard(item) {
   elementRemove.addEventListener('click', (e) =>
     e.target.closest('.elements__element').remove()
   );
-  
+
   cardImage.addEventListener('click', (e) => {
     openPopUp(popUpImage);
     imageInPopUp.src = item.link;
@@ -149,8 +151,8 @@ function closeByEscape(evt) {
 }
 
 /* закрытие по клику на фоне */
-function closeByClick (evt) {
-  if (evt.target == evt.target.closest('.pop-up')) {
-    closePopUp(evt.target.closest('.pop-up'));
+function closeByClick(evt) {
+  if (evt.target.classList.contains('pop-up__open')) {
+    closePopUp(evt.target);
   }
 }
