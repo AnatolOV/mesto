@@ -14,13 +14,13 @@ const inputCardUrl = document.querySelector('.pop-up__field_reference_image');
 const inputCardPlace = document.querySelector('.pop-up__field_name_place');
 const popUpImage = document.querySelector('#photo');
 const popUpImageClose = popUpImage.querySelector('.pop-up__close');
-const imageInPopUp = popUpImage.querySelector('.pop-up__image');
-const namePopUpImage = popUpImage.querySelector('.pop-up__name-image');
+// const imageInPopUp = popUpImage.querySelector('.pop-up__image');
+// const namePopUpImage = popUpImage.querySelector('.pop-up__name-image');
 const containerOfElements = document.querySelector('.elements');
 
 const popUpAddBox = document.querySelector('#add');
 const addCardsButton = document.querySelector('.profile__add-button');
-const popUpAddBoxSaveButton = popUpAddBox.querySelector('.pop-up__save');
+// const popUpAddBoxSaveButton = popUpAddBox.querySelector('.pop-up__save');
 const popUpAddClose = popUpAddBox.querySelector('.pop-up__close');
 const popUpAddNamePlace = popUpAddBox.querySelector(
   '.pop-up__field_name_place'
@@ -85,7 +85,10 @@ const initialCards = [
   },
 ];
 
-addCardsButton.addEventListener('click', () => openPopUp(popUpAddBox));
+addCardsButton.addEventListener('click', () => {
+  openPopUp(popUpAddBox),
+    new FormValidator(arrOfSettings, addFormElement).enableValidation();
+});
 
 popUpAddClose.addEventListener('click', () => closePopUp(popUpAddBox));
 
