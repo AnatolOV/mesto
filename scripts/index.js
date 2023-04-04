@@ -1,5 +1,5 @@
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
+import Card from './Card.js';
+import FormValidator from './FormValidator.js';
 const popUpBoxEdit = document.querySelector('#edit');
 const profileEditButton = document.querySelector('.profile__edit-button');
 const popUpBoxEditClose = popUpBoxEdit.querySelector('.pop-up__close');
@@ -89,21 +89,19 @@ addCardsButton.addEventListener('click', () => openPopUp(popUpAddBox));
 
 popUpAddClose.addEventListener('click', () => closePopUp(popUpAddBox));
 
+function createCard(item) {
+  const cardElement = new Card(item, objectOfSettings, open).generateCard();
+  return cardElement;
+}
+
 function handleFormSubmitAdd(evt) {
   evt.preventDefault();
   const item = {
     name: inputCardPlace.value,
     link: inputCardUrl.value,
   };
-
-  const card = new Card(item, objectOfSettings, open).generateCard();
-  containerOfElements.prepend(card);
-
+  containerOfElements.prepend(createCard(item));
   closePopUp(popUpAddBox);
-
-  popUpAddBoxSaveButton.classList.add('pop-up__save_inactive');
-  popUpAddBoxSaveButton.disabled = true;
-
   evt.target.reset();
 }
 
@@ -128,10 +126,8 @@ const open = () => {
   openPopUp(popUpImage);
 };
 
-
 initialCards.forEach((item) => {
-  const card = new Card(item, objectOfSettings, open);
-  containerOfElements.append(card.generateCard());
+  containerOfElements.append(createCard(item));
 });
 
 /* закрытие по ESC */

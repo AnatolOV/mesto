@@ -4,6 +4,12 @@ export default class Card {
     this._link = data.link;
     this._name = data.name;
     this._handleCardClick = handleCardClick;
+    this.imageInPopUp = document.querySelector(
+      `.${this._objectOfSettings.classImgInPopUp}`
+    );
+    this._namePopUpImage = document.querySelector(
+      `.${this._objectOfSettings.classNameOfImgInPopup}`
+    );
   }
 
   _getTemplate() {
@@ -28,7 +34,6 @@ export default class Card {
     this.likeButton = this.element.querySelector(
       `.${this._objectOfSettings.classLikeCardButton}`
     );
-
     this.elementRemove = this.element.querySelector(
       `.${this._objectOfSettings.classRemoveCardButton}`
     );
@@ -46,13 +51,7 @@ export default class Card {
   }
   _clickOnImg() {
     this._handleCardClick();
-    this.imageInPopUp = document.querySelector(
-      `.${this._objectOfSettings.classImgInPopUp}`
-    );
     this.imageInPopUp.src = this._link;
-    this._namePopUpImage = document.querySelector(
-      `.${this._objectOfSettings.classNameOfImgInPopup}`
-    );
     this._namePopUpImage.textContent = this._name;
   }
   _setEventListeners() {

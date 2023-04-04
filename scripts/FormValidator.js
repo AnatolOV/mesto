@@ -25,30 +25,21 @@ export default class FormValidator {
   }
   enableValidation = () => {
     const {
-      formSelector,
       inputSelector,
       submitButtonSelector,
       inactiveButtonClass,
       errorClass,
     } = this._arrOfSettings;
 
-    const formList = Array.from(document.querySelectorAll(`${formSelector}`));
-
-    formList.forEach((element) => {
-      element.addEventListener('submit', function (evt) {
-        evt.preventDefault();
-      });
-
-      formList.forEach((fieldSet) => {
-        this._setEventListeners(
-          fieldSet,
-          inputSelector,
-          submitButtonSelector,
-          inactiveButtonClass,
-          errorClass
-        );
-      });
+    this._formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
     });
+    this._setEventListeners(
+      inputSelector,
+      submitButtonSelector,
+      inactiveButtonClass,
+      errorClass
+    );
   };
 
   _hasInvalidInput(inputList) {
