@@ -23,6 +23,19 @@ export default class FormValidator {
       errorElement.textContent = '';
     };
   }
+  resetValidation() {
+    const { inactiveButtonClass, errorClass } = this._arrOfSettings;
+    this._toggleButtonState(
+      this.inputList,
+      this.buttonElement,
+      inactiveButtonClass
+    );
+
+    this.inputList.forEach((inputElement) => {
+      this._hideInputError(this._formElement, inputElement, errorClass);
+    });
+  }
+
   enableValidation = () => {
     const {
       inputSelector,

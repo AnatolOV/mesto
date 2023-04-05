@@ -53,6 +53,7 @@ profileEditButton.addEventListener('click', (e) => {
   openPopUp(popUpBoxEdit);
   popUpNameHuman.value = profileName.textContent;
   popUpOccupationHuman.value = profileProfession.textContent;
+  validationEditForm.resetValidation();
 });
 
 popUpBoxEditClose.addEventListener('click', () => closePopUp(popUpBoxEdit));
@@ -86,8 +87,7 @@ const initialCards = [
 ];
 
 addCardsButton.addEventListener('click', () => {
-  openPopUp(popUpAddBox),
-    new FormValidator(arrOfSettings, addFormElement).enableValidation();
+  openPopUp(popUpAddBox), validationAddForm.resetValidation();
 });
 
 popUpAddClose.addEventListener('click', () => closePopUp(popUpAddBox));
@@ -160,11 +160,8 @@ const arrOfSettings = {
   errorClass: 'pop-up__input-error_active',
 };
 
-const validationAddForm = new FormValidator(
-  arrOfSettings,
-  addFormElement
-).enableValidation();
-const validationEditForm = new FormValidator(
-  arrOfSettings,
-  editFormElement
-).enableValidation();
+const validationAddForm = new FormValidator(arrOfSettings, addFormElement);
+validationAddForm.enableValidation();
+
+const validationEditForm = new FormValidator(arrOfSettings, editFormElement);
+validationEditForm.enableValidation();
