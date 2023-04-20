@@ -49,13 +49,13 @@ export default class Card {
   _handleDelete() {
     this.cardElement.remove();
   }
-  _clickOnImg() {
-    this._handleCardClick();
-    this.imageInPopUp.src = this._link;
-    this._namePopUpImage.textContent = this._name;
-  }
+  // _clickOnImg() {
+  //   this._handleCardClick();
+  //   this.imageInPopUp.src = this._link;
+  //   this._namePopUpImage.textContent = this._name;
+  // }
   _setEventListeners() {
-    this.cardImage.addEventListener('click', () => this._clickOnImg());
+    // this.cardImage.addEventListener('click', () => this._clickOnImg());
     this.likeButton.addEventListener('click', () => this._handleCardLike());
     this.elementRemove.addEventListener('click', () => this._handleDelete());
   }
