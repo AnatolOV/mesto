@@ -71,6 +71,7 @@ function createCard(item) {
 
 const handleFormSubmitAdd = (item) => {
   console.log("функция добавить картинку");
+  // console.log(createCard(item));
   sectionClass.addItem(createCard(item));
   popupAddCard.close();
 };
@@ -79,11 +80,11 @@ const popupAddCard = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitAdd },
   "#add"
 );
+popupAddCard.setEventListeners();
 
 function addCardButtonCallback() {
   // console.log(9)
   popupAddCard.open();
-  popupAddCard.setEventListeners();
   validationAddForm.resetValidation();
 }
 

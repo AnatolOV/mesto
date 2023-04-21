@@ -18,7 +18,7 @@ export default class PopupWithForm extends Popup {
       
     );
   //  console.log(this._formElement)
-  console.log(this._popup);
+  // console.log(this._popup);
     return this._formElement;
   }
 
@@ -26,7 +26,7 @@ export default class PopupWithForm extends Popup {
     super.setEventListeners();
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
-    
+    // console.log(this._formElement);
      this._handleFormSubmit(this._getInputValues());
     });
   }
