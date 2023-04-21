@@ -7,10 +7,10 @@ export const popUpAddNamePlace = popUpAddBox.querySelector(
 export const popUpAddReferenceImage = popUpAddBox.querySelector(
   '.pop-up__field_reference_image'
 );
-
-//формы для валидации
-export const addFormElement = document.querySelector('#add');
-export const editFormElement = document.querySelector('#edit');
+export const popupEditFieldName = document.querySelector(".pop-up__field_name_human");
+export const popupEditFieldProfession = document.querySelector(
+  ".pop-up__field_name_occupation"
+);
 
 //массив с настройками валидации
 export const arrOfSettings = {
@@ -61,3 +61,5 @@ export const objectOfSettings = {
 };
 export const selectorName = '.profile__name';
 export const selectorOccupation = '.profile__profession';
+export const inputHumanField = document.querySelector("#human-input"); // поля ввода
+export const inputProfessionField = document.querySelector("#occupation-input");

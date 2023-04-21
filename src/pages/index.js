@@ -1,28 +1,36 @@
-import './index.css';
-import Card from '../components/Card.js';
-import Popup from '../components/Popup.js';
-import FormValidator from '../components/FormValidator.js';
-import PopupWithForm from '../components/PopupWithForm.js';
-import PopupWithImage from '../components/PopupWithImage.js';
-import Section from '../components/Section.js';
-import UserInfo from '../components/UserInfo.js';
+import "./index.css";
+import Card from "../components/Card.js";
+import Popup from "../components/Popup.js";
+import FormValidator from "../components/FormValidator.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import Section from "../components/Section.js";
+import UserInfo from "../components/UserInfo.js";
 import {
   profileEditButton,
   popUpAddBox,
+  popupEditFieldName,
+  popupEditFieldProfession,
   addCardsButton,
   popUpAddNamePlace,
+  inputHumanField,
+  inputProfessionField,
   popUpAddReferenceImage,
-  addFormElement,
-  editFormElement,
   arrOfSettings,
   initialCards,
   objectOfSettings,
   selectorName,
   selectorOccupation,
-} from '../utils/constants.js';
+} from "../utils/constants.js";
+// добавляем подпись-placeholder к полям ввода
+popUpAddNamePlace.placeholder = "Название";
+popUpAddReferenceImage.placeholder = "Ссылка на картинку";
+popupEditFieldProfession.placeholder = "Вид деятельности";
+popupEditFieldName.placeholder = "ФИО";
 
-popUpAddNamePlace.placeholder = 'Название';
-popUpAddReferenceImage.placeholder = 'Ссылка на картинку';
+//формы для валидации
+const addFormElement = document.querySelector("#add");
+const editFormElement = document.querySelector("#edit");
 
 //////////////////Подключаю валидацию форм//////////////////
 const validationAddForm = new FormValidator(arrOfSettings, addFormElement);
@@ -31,48 +39,55 @@ validationAddForm.enableValidation();
 const validationEditForm = new FormValidator(arrOfSettings, editFormElement);
 validationEditForm.enableValidation();
 
-function createCard(item) {
-  const cardElement = new Card(item, objectOfSettings, open).generateCard();
-  let cardImg = cardElement.querySelector('.elements__image');
-  cardImg.addEventListener('click', () => {
-    popupImage.open(cardImg.alt, cardImg.src);
-    popupImage.setEventListeners();
-  });
-  return cardElement;
-}
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
-const popupImage = new PopupWithImage('#photo');
+const popupImage = new PopupWithImage("#photo");
+popupImage.setEventListeners();
 const sectionClass = new Section(
   {
-    items: initialCards,
-    renderer: (e) => {
-      sectionClass.addItem(createCard(e));
-    },
+    items: initialCards
   },
-  '.elements'
+  ".elements"
 );
-sectionClass.renderItems();
+sectionClass.renderItems({
+  renderer: (e) => {
+    sectionClass.addItem(createCard(e));
+  },
+});
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
 
+
+
+function createCard(item) {
+  const cardElement = new Card(item, objectOfSettings, () => {
+    const { classOfImgInCard } = objectOfSettings;
+    const cardImg = cardElement.querySelector(`.${classOfImgInCard}`);
+    popupImage.open(cardImg.alt, cardImg.src);
+  }).generateCard();
+
+  return cardElement;
+}
+
 const handleFormSubmitAdd = (item) => {
-  console.log('функция добавить картинку попап');
+  console.log("функция добавить картинку");
   sectionClass.addItem(createCard(item));
   popupAddCard.close();
 };
 
 const popupAddCard = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitAdd },
-  '#add'
+  "#add"
 );
 
-addCardsButton.addEventListener('click', (e) => {
-  // открытие попап Добавить картинку
-  popupAddCard.open(); //new code
+function addCardButtonCallback() {
+  // console.log(9)
+  popupAddCard.open();
   popupAddCard.setEventListeners();
-  validationAddForm.enableValidation();
-});
+  validationAddForm.resetValidation();
+}
+
+addCardsButton.addEventListener("click", addCardButtonCallback); // открытие попап Добавить картинку
 
 /////////////////////////////////////////////////////////////////////
 // новый попап редактировать профиль
@@ -83,20 +98,25 @@ const userInfo = new UserInfo({
 });
 
 const handleFormSubmitEdit = (data) => {
-  userInfo.getUserInfo();
+  // console.log(9)
   userInfo.setUserInfo(data);
   profileEditPopup.close();
 };
 
 const profileEditPopup = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitEdit },
-  '#edit'
+  "#edit"
 );
-profileEditButton.addEventListener('click', (e) => {
-  // открытие попап Редактировать профиль
+
+function profileEditButtonCallback(dat) {
   profileEditPopup.open();
-  validationEditForm.enableValidation();
+  inputHumanField.value = dat.human;
+  inputProfessionField.value = dat.occupation;
+  validationEditForm.resetValidation();
   profileEditPopup.setEventListeners();
-});
+}
+profileEditButton.addEventListener("click", () =>
+  profileEditButtonCallback(userInfo.getUserInfo())
+); // открытие попап Редактировать профиль
 
 ///////////////////////////////////////////////////////////////////////////////////////////

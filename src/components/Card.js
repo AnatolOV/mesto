@@ -1,7 +1,7 @@
 export default class Card {
   constructor(data, objectOfSettings, handleCardClick) {
     this._objectOfSettings = objectOfSettings;
-    this._link = data.link;
+    this._link = data.link || data.reference;
     this._name = data.name;
     this._handleCardClick = handleCardClick;
     this.imageInPopUp = document.querySelector(
@@ -49,14 +49,13 @@ export default class Card {
   _handleDelete() {
     this.cardElement.remove();
   }
-  // _clickOnImg() {
-  //   this._handleCardClick();
-  //   this.imageInPopUp.src = this._link;
-  //   this._namePopUpImage.textContent = this._name;
-  // }
+
   _setEventListeners() {
-    // this.cardImage.addEventListener('click', () => this._clickOnImg());
-    this.likeButton.addEventListener('click', () => this._handleCardLike());
-    this.elementRemove.addEventListener('click', () => this._handleDelete());
+    this.cardImage.addEventListener("click", () => {
+      this._handleCardClick();
+      // console.log(this._handleCardClick)
+    });
+    this.likeButton.addEventListener("click", () => this._handleCardLike());
+    this.elementRemove.addEventListener("click", () => this._handleDelete());
   }
 }

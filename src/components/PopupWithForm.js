@@ -7,6 +7,7 @@ export default class PopupWithForm extends Popup {
     this._handleFormSubmit = handleFormSubmit; // колбек сабмита формы
     this._inputList = this._popup.querySelectorAll('.pop-up__field'); // поля ввода
     this._form = this._popup.querySelector(".pop-up__form"); // форма
+    // console.log(this._popup);
   }
 
   _getInputValues() {
@@ -14,8 +15,10 @@ export default class PopupWithForm extends Popup {
     // перебираем inputs, присваиваем значение и возвращаем форму
     this._inputList.forEach(
       (elem) => {this._formElement[elem.name] = elem.value}
+      
     );
-    // console.log(this._formElement)
+  //  console.log(this._formElement)
+  console.log(this._popup);
     return this._formElement;
   }
 
@@ -24,7 +27,6 @@ export default class PopupWithForm extends Popup {
     this._form.addEventListener("submit", (evt) => {
       evt.preventDefault();
     
-      // console.log(this._handleFormSubmit);
      this._handleFormSubmit(this._getInputValues());
     });
   }

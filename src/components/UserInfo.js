@@ -5,13 +5,12 @@ export default class UserInfo {
   }
 
   getUserInfo() {
-    this.info = {};
-    // console.log(this._profileName.textContent);
-    // console.log(this._profileAbout.textContent);
-    this.info.human = this._profileName.textContent;
-    this.info.occupation = this._profileAbout.textContent;
-    // console.log(this.info)
-    return this.info;
+    // console.log('get User')
+    const info = {};
+    info.human = this._profileName.textContent;
+    info.occupation = this._profileAbout.textContent;
+    
+    return info;
   }
   setUserInfo({ human, occupation }) {
     if (human) {
