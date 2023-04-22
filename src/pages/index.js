@@ -113,7 +113,6 @@ function profileEditButtonCallback(dat) {
   profileEditPopup.open();
   inputHumanField.value = dat.human;
   inputProfessionField.value = dat.occupation;
-  validationEditForm.resetValidation();
   profileEditPopup.setEventListeners();
 }
 profileEditButton.addEventListener("click", () =>
