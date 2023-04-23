@@ -108,12 +108,12 @@ const profileEditPopup = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitEdit },
   "#edit"
 );
+profileEditPopup.setEventListeners();
 
 function profileEditButtonCallback(dat) {
   profileEditPopup.open();
   inputHumanField.value = dat.human;
-  inputProfessionField.value = dat.occupation;
-  profileEditPopup.setEventListeners();
+  inputProfessionField.value = dat.occupation;  
 }
 profileEditButton.addEventListener("click", () =>
   profileEditButtonCallback(userInfo.getUserInfo())
