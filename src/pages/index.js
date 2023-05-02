@@ -22,11 +22,24 @@ import {
   selectorName,
   selectorOccupation,
 } from "../utils/constants.js";
+import Api from "../components/Api.js";
+
 // добавляем подпись-placeholder к полям ввода
 popUpAddNamePlace.placeholder = "Название";
 popUpAddReferenceImage.placeholder = "Ссылка на картинку";
 popupEditFieldProfession.placeholder = "Вид деятельности";
 popupEditFieldName.placeholder = "ФИО";
+
+// объект с персональными данными для Api
+const apiData = {
+  url: "https://mesto.nomoreparties.co/v1/cohort-65",
+  headers: {
+    "Content-Type": "application/json",
+    authorization: "839f0bcd-454c-4502-9292-a3578896039c",
+  },
+};
+// объект класса Api
+const api = new Api(apiData);
 
 //формы для валидации
 const addFormElement = document.querySelector("#add");
@@ -40,19 +53,37 @@ const validationEditForm = new FormValidator(arrOfSettings, editFormElement);
 validationEditForm.enableValidation();
 
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
-const popupImage = new PopupWithImage("#photo");
-popupImage.setEventListeners();
-const sectionClass = new Section(
-  {
-    items: initialCards
-  },
-  ".elements"
-);
-sectionClass.renderItems({
-  renderer: (e) => {
-    sectionClass.addItem(createCard(e));
-  },
-});
+// const popupImage = new PopupWithImage("#photo");
+// popupImage.setEventListeners();
+// const sectionClass = new Section(
+//   {
+//     items: initialCards
+//   },
+//   ".elements"
+// );
+// sectionClass.renderItems({
+//   renderer: (e) => {
+//     sectionClass.addItem(createCard(e));
+//   },
+// });
+// получаем начальный набор карточек
+let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
+const elementaryCards = api
+  .getInitialCards()
+  .then(function (data) {
+    cardList = new Section(
+      {
+        elem: data.reverse(), // переворачивем массив, чтобы карточки добавлялись в начало
+        renderer: (item) => {
+          cardList.addItem(createNewCard(item));
+        },
+      },
+      ".elements"
+    );
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
@@ -93,10 +124,10 @@ addCardsButton.addEventListener("click", addCardButtonCallback); // открыт
 /////////////////////////////////////////////////////////////////////
 // новый попап редактировать профиль
 
-const userInfo = new UserInfo({
-  profileName: selectorName,
-  profileAbout: selectorOccupation,
-});
+// const userInfo = new UserInfo({
+//   profileName: selectorName,
+//   profileAbout: selectorOccupation,
+// });
 
 const handleFormSubmitEdit = (data) => {
   // console.log(9)
@@ -120,3 +151,21 @@ profileEditButton.addEventListener("click", () =>
 ); // открытие попап Редактировать профиль
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+
+// данные пользователя
+let userId; // изменяю значение ниже, поэтому не могу обьявить константу
+const userInfo = api
+  .getInfo()
+  .then((data) => {
+    userId = data._id;
+    profilePopup.setUserInfo({
+      name: data.name,
+      about: data.about,
+      avatar: data.avatar,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+// чтобы все информация загружалась одновременно
+Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
