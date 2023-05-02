@@ -67,23 +67,23 @@ validationEditForm.enableValidation();
 //   },
 // });
 // получаем начальный набор карточек
-let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
-const elementaryCards = api
-  .getInitialCards()
-  .then(function (data) {
-    cardList = new Section(
-      {
-        elem: data.reverse(), // переворачивем массив, чтобы карточки добавлялись в начало
-        renderer: (item) => {
-          cardList.addItem(createNewCard(item));
-        },
-      },
-      ".elements"
-    );
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
+// const elementaryCards = api
+//   .getInitialCards()
+//   .then(function (data) {
+//     cardList = new Section(
+//       {
+//         elem: data.reverse(), // переворачивем массив, чтобы карточки добавлялись в начало
+//         renderer: (item) => {
+//           cardList.addItem(createNewCard(item));
+//         },
+//       },
+//       ".elements"
+//     );
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
