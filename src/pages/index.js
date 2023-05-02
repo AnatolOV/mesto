@@ -53,38 +53,38 @@ const validationEditForm = new FormValidator(arrOfSettings, editFormElement);
 validationEditForm.enableValidation();
 
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
-// const popupImage = new PopupWithImage("#photo");
-// popupImage.setEventListeners();
-// const sectionClass = new Section(
-//   {
-//     items: initialCards
-//   },
-//   ".elements"
-// );
-// sectionClass.renderItems({
-//   renderer: (e) => {
-//     sectionClass.addItem(createCard(e));
-//   },
-// });
+const popupImage = new PopupWithImage("#photo");
+popupImage.setEventListeners();
+const sectionClass = new Section(
+  {
+    items: initialCards
+  },
+  ".elements"
+);
+sectionClass.renderItems({
+  renderer: (e) => {
+    sectionClass.addItem(createCard(e));
+  },
+});
 // получаем начальный набор карточек
-let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
-const elementaryCards = api
-  .getInitialCards()
-  .then(function (data) {
-    console.log('запущен запрос для получения карточек с сервера')
-    cardList = new Section(
-      {
-        elem: data.reverse(), // переворачивем массив, чтобы карточки добавлялись в начало
-        renderer: (item) => {
-          cardList.addItem(createNewCard(item));
-        },
-      },
-      ".elements"
-    );
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+// let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
+// const elementaryCards = api
+//   .getInitialCards()
+//   .then(function (data) {
+//     console.log('запущен запрос для получения карточек с сервера')
+//     cardList = new Section(
+//       {
+//         elem: data.reverse(), // переворачивем массив, чтобы карточки добавлялись в начало
+//         renderer: (item) => {
+//           cardList.addItem(createNewCard(item));
+//         },
+//       },
+//       ".elements"
+//     );
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
