@@ -21,6 +21,7 @@ import {
   objectOfSettings,
   selectorName,
   selectorOccupation,
+  selectorAvatar,
 } from "../utils/constants.js";
 import Api from "../components/Api.js";
 
@@ -129,7 +130,7 @@ addCardsButton.addEventListener("click", addCardButtonCallback); // открыт
 const userInfo = new UserInfo({
   profileName: selectorName,
   profileAbout: selectorOccupation,
-  profileAvatar: profile__photo,
+  profileAvatar: selectorAvatar,
 });
 // api
 //   .getInfo()

@@ -61,5 +61,6 @@ export const objectOfSettings = {
 };
 export const selectorName = '.profile__name';
 export const selectorOccupation = '.profile__profession';
+export const selectorAvatar = ".profile__photo";
 export const inputHumanField = document.querySelector("#human-input"); // поля ввода
 export const inputProfessionField = document.querySelector("#occupation-input");
