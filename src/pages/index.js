@@ -56,17 +56,17 @@ validationEditForm.enableValidation();
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
 const popupImage = new PopupWithImage("#photo");
 popupImage.setEventListeners();
-const sectionClass = new Section(
-  {
-    items: initialCards
-  },
-  ".elements"
-);
-sectionClass.renderItems({
-  renderer: (e) => {
-    sectionClass.addItem(createCard(e));
-  },
-});
+// const sectionClass = new Section(
+//   {
+//     items: initialCards
+//   },
+//   ".elements"
+// );
+// sectionClass.renderItems({
+//   renderer: (e) => {
+//     sectionClass.addItem(createCard(e));
+//   },
+// });
 // получаем начальный набор карточек
 // let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
 // const elementaryCards = api
