@@ -40,7 +40,7 @@ const apiData = {
 };
 // объект класса Api
 const api = new Api(apiData);
-console.log(333)
+console.log(api)
 
 //формы для валидации
 const addFormElement = document.querySelector("#add");
