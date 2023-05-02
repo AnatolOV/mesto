@@ -69,7 +69,7 @@ popupImage.setEventListeners();
 // });
 // получаем начальный набор карточек
 let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
-const initialCards = api
+const initCards = api
   .getInitialCards()
   .then(function (data) {
     console.log('запущен запрос для получения карточек с сервера')
