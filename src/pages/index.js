@@ -125,10 +125,10 @@ addCardsButton.addEventListener("click", addCardButtonCallback); // открыт
 /////////////////////////////////////////////////////////////////////
 // новый попап редактировать профиль
 
-// const userInfo = new UserInfo({
-//   profileName: selectorName,
-//   profileAbout: selectorOccupation,
-// });
+const userInfo = new UserInfo({
+  profileName: selectorName,
+  profileAbout: selectorOccupation,
+});
 
 const handleFormSubmitEdit = (data) => {
   // console.log(9)
@@ -154,19 +154,19 @@ profileEditButton.addEventListener("click", () =>
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 // данные пользователя
-let userId; // изменяю значение ниже, поэтому не могу обьявить константу
-const userInfo = api
-  .getInfo()
-  .then((data) => {
-    userId = data._id;
-    profilePopup.setUserInfo({
-      name: data.name,
-      about: data.about,
-      avatar: data.avatar,
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-// чтобы все информация загружалась одновременно
-Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
+// let userId; // изменяю значение ниже, поэтому не могу обьявить константу
+// const userInfo = api
+//   .getInfo()
+//   .then((data) => {
+//     userId = data._id;
+//     profilePopup.setUserInfo({
+//       name: data.name,
+//       about: data.about,
+//       avatar: data.avatar,
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
+// // чтобы все информация загружалась одновременно
+// Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
