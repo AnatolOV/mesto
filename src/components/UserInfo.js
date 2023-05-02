@@ -2,6 +2,7 @@ export default class UserInfo {
   constructor({ profileName, profileAbout }) {
     this._profileName = document.querySelector(profileName); // селектор имя
     this._profileAbout = document.querySelector(profileAbout); //селектор обо мне
+    this._profileAvatar = document.querySelector(profileAvatar); // селектор аватара
   }
 
   getUserInfo() {
@@ -18,6 +19,9 @@ export default class UserInfo {
     }
     if (occupation) {
       this._profileAbout.textContent = occupation;
+    }
+    if (avatar) {
+      this._profileAvatar.src = avatar; 
     }
   }
 }

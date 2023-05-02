@@ -129,7 +129,21 @@ addCardsButton.addEventListener("click", addCardButtonCallback); // открыт
 const userInfo = new UserInfo({
   profileName: selectorName,
   profileAbout: selectorOccupation,
+  profileAvatar: profile__photo,
 });
+api
+//   .getInfo()
+//   .then((data) => {
+//     userId = data._id;
+//     profilePopup.setUserInfo({
+//       name: data.name,
+//       about: data.about,
+//       avatar: data.avatar,
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
 
 const handleFormSubmitEdit = (data) => {
   // console.log(9)
