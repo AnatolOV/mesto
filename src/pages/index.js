@@ -130,14 +130,16 @@ const setUserInfo = api
 
 const handleFormSubmitEdit = (data) => {
   console.log(data);
-  api.editUserInfo(data).then(
+  api.editUserInfo(data).then((data)=>{
   
-        console.log("записьTTT"),
+        console.log("зап"),
+        console.log(data),
         userInfo.setUserInfo({
           human: data.name,
           occupation: data.about,
           avatar: data.avatar,
         })
+      }
       
   
   )
