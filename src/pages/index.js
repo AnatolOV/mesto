@@ -142,7 +142,7 @@ const setUserInfo = api
 
 // редактирование данных пользователя
 const handleFormSubmitEdit = (data) => {
-  console.log('research');
+  // console.log('research');
   api.editUserInfo(data).then((data) => {
      userId = data._id;
       userInfo.setUserInfo({
