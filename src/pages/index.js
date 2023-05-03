@@ -132,8 +132,15 @@ const handleFormSubmitEdit = (data) => {
   console.log(data);
   api.editUserInfo(data).then(
   
-  );
-
+        console.log("записьTTT"),
+        userInfo.setUserInfo({
+          human: data.name,
+          occupation: data.about,
+          avatar: data.avatar,
+        })
+      
+  
+  )
   profileEditPopup.close();
 };
 

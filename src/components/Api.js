@@ -50,14 +50,7 @@ export default class Api {
       }),
     })
       .then((res) => this._checkError(res))
-      .then(
-        // console.log("запись новых данных"),
-        userInfo.setUserInfo({
-          human: data.name,
-          occupation: data.about,
-          avatar: data.avatar,
-        })
-      );
+     
   }
   // метод изменения данных аватара
   patchAvatarInfo(data) {
