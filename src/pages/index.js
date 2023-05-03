@@ -81,11 +81,20 @@ function createCard(item) {
 }
 
 const handleFormSubmitAdd = (item) => {
-  console.log("функция добавить картинку");
-  // console.log(createCard(item));
-  sectionClass.addItem(createCard(item));
+  console.log("функция добавить картинку NEW");
+  api.postNewCard(item).then((item) => sectionClass.addItem(createCard(item)));
+
+  // sectionClass.addItem(createCard(item));
   popupAddCard.close();
 };
+// метод добавляет карточки на страницу
+  // postNewCard(data) {
+  //   return fetch(`${this._url}/cards`, {
+  //     method: "POST",
+  //     headers: this._headers,
+  //     body: JSON.stringify(data),
+  //   }).then((res) => this._checkError(res));
+  // }
 
 const popupAddCard = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitAdd },
