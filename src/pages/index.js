@@ -129,8 +129,9 @@ const setUserInfo = api
 // Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
 
 const handleFormSubmitEdit = (data) => {
-  console.log(data);
+  console.log('research');
   api.editUserInfo(data).then((data) => {
+     userId = data._id;
       userInfo.setUserInfo({
         human: data.name,
         occupation: data.about,
