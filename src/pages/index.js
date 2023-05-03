@@ -62,8 +62,9 @@ const initCards = api.getInitialCards().then(function (data) {
   sectionClass = new Section({ items: data }, ".elements");
   sectionClass.renderItems({
     renderer: (e) => {
-      sectionClass.addItem(createCard(e))
-    }})
+      sectionClass.addItem(createCard(e));
+    },
+  });
 });
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
@@ -128,18 +129,18 @@ const setUserInfo = api
 // Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
 
 const handleFormSubmitEdit = (data) => {
-  
-  console.log(data)
+  console.log(data);
   api.editUserInfo(data).then(
-    console.log("запись новых данных")
+    console.log("запись новых данных"),
+    userInfo.setUserInfo({
+      human: data.name,
+      occupation: data.about,
+      avatar: data.avatar,
+    })
+  );
 
-    
-    
-    );
-  
   profileEditPopup.close();
 };
-
 
 const profileEditPopup = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitEdit },
