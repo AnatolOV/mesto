@@ -41,7 +41,6 @@ const apiData = {
 };
 // объект класса Api
 const api = new Api(apiData);
-console.log(api.getInitialCards())
 
 //формы для валидации
 const addFormElement = document.querySelector("#add");
@@ -57,41 +56,18 @@ validationEditForm.enableValidation();
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
 const popupImage = new PopupWithImage("#photo");
 popupImage.setEventListeners();
-const sectionClass = new Section(
-  {
-    items: initialCards
-  },
-  ".elements"
-);
-sectionClass.renderItems({
-  renderer: (e) => {
-    sectionClass.addItem(createCard(e));
-  },
+
+let sectionClass;
+const initCards = api.getInitialCards().then(function (data) {
+  sectionClass = new Section({ items: data }, ".elements");
+  sectionClass.renderItems({
+    renderer: (e) => {
+      sectionClass.addItem(createCard(e))
+    }})
 });
-// получаем начальный набор карточек
-// let cardList; // изменяю значение ниже, поэтому не могу обьявить константу
-// const initCards = api
-//   .getInitialCards()
-//   .then(function (data) {
-//     console.log('запущен запрос для получения карточек с сервера')
-//     cardList = new Section(
-//       {
-//         elem: data.reverse(), // переворачивем массив, чтобы карточки добавлялись в начало
-//         renderer: (item) => {
-//           cardList.addItem(createNewCard(item));
-//         },
-//       },
-//       ".elements"
-//     );
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
-
-
 
 function createCard(item) {
   const cardElement = new Card(item, objectOfSettings, () => {
@@ -132,15 +108,16 @@ const userInfo = new UserInfo({
   profileAbout: selectorOccupation,
   profileAvatar: selectorAvatar,
 });
-// данные пользователя
-let userId; // изменяю значение ниже, поэтому не могу обьявить константу
-const userInfo = api
+
+// данные пользователя запрос на сервер
+let userId;
+const setUserInfo = api
   .getInfo()
   .then((data) => {
     userId = data._id;
     userInfo.setUserInfo({
-      name: data.name,
-      about: data.about,
+      human: data.name,
+      occupation: data.about,
       avatar: data.avatar,
     });
   })
@@ -151,8 +128,9 @@ const userInfo = api
 // Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
 
 const handleFormSubmitEdit = (data) => {
-  // console.log(9)
-  userInfo.setUserInfo(data);
+  console.log(userInfo.getUserInfo());
+  // api.editUserInfo().then(console.log(8));
+  
   profileEditPopup.close();
 };
 
@@ -165,11 +143,10 @@ profileEditPopup.setEventListeners();
 function profileEditButtonCallback(dat) {
   profileEditPopup.open();
   inputHumanField.value = dat.human;
-  inputProfessionField.value = dat.occupation;  
+  inputProfessionField.value = dat.occupation;
 }
 profileEditButton.addEventListener("click", () =>
   profileEditButtonCallback(userInfo.getUserInfo())
 ); // открытие попап Редактировать профиль
 
 ///////////////////////////////////////////////////////////////////////////////////////////
-

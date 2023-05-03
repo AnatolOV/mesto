@@ -40,11 +40,14 @@ export default class Api {
     }).then((res) => this._checkError(res));
   }
   //метод для изменения данных с сервера
-  patchUserInfo(data) {
+  editUserInfo(data) {
     return fetch(`${this._url}/users/me`, {
       method: "PATCH",
       headers: this._headers,
-      body: JSON.stringify(data),
+      body: JSON.stringify({
+        name: "example2",
+        about: "ttt",
+      }),
     }).then((res) => this._checkError(res));
   }
   // метод изменения данных аватара

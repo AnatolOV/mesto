@@ -1,5 +1,5 @@
 export default class Section {
-  constructor({ items}, selector) {
+  constructor({items}, selector) {
     this._itemsData = items;    
 
     this._container = document.querySelector(selector);
@@ -11,6 +11,5 @@ export default class Section {
   }
   addItem(element) {
     this._container.prepend(element);
-    // console.log('method addItem')
   }
 }
