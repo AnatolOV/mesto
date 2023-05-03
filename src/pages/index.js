@@ -130,10 +130,16 @@ const setUserInfo = api
 const handleFormSubmitEdit = (data) => {
   
   console.log(data)
-  api.editUserInfo(data).then(console.log(8));
+  api.editUserInfo(data).then(
+    console.log("запись новых данных")
+
+    
+    
+    );
   
   profileEditPopup.close();
 };
+
 
 const profileEditPopup = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitEdit },
