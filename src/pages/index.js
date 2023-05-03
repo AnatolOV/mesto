@@ -82,7 +82,9 @@ function createCard(item) {
 
 const handleFormSubmitAdd = (item) => {
   console.log("функция добавить картинку NEW");
-  api.postNewCard(item).then((item) => sectionClass.addItem(createCard(item)));
+  console.log(item);
+  api.postNewCard(item)
+  // .then((item) => sectionClass.addItem(createCard(item)));
 
   // sectionClass.addItem(createCard(item));
   popupAddCard.close();
