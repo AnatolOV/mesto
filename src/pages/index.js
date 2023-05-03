@@ -83,20 +83,27 @@ function createCard(item) {
 const handleFormSubmitAdd = (item) => {
   console.log("функция добавить картинку");
   console.log(item);
-  api.postNewCard(item)
+  api.postNewCard(item).then(function (data) {
+    sectionClass = new Section({ items: data }, ".elements");
+    sectionClass.renderItems({
+      renderer: (e) => {
+        sectionClass.addItem(createCard(e));
+      },
+    });
+  });;
   // .then((item) => sectionClass.addItem(createCard(item)));
 
   // sectionClass.addItem(createCard(item));
   popupAddCard.close();
 };
 // метод добавляет карточки на страницу
-  // postNewCard(data) {
-  //   return fetch(`${this._url}/cards`, {
-  //     method: "POST",
-  //     headers: this._headers,
-  //     body: JSON.stringify(data),
-  //   }).then((res) => this._checkError(res));
-  // }
+// postNewCard(data) {
+//   return fetch(`${this._url}/cards`, {
+//     method: "POST",
+//     headers: this._headers,
+//     body: JSON.stringify(data),
+//   }).then((res) => this._checkError(res));
+// }
 
 const popupAddCard = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitAdd },
@@ -139,17 +146,16 @@ const setUserInfo = api
 // // чтобы все информация загружалась одновременно
 // Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
 
-
 // редактирование данных пользователя
 const handleFormSubmitEdit = (data) => {
   // console.log('research');
   api.editUserInfo(data).then((data) => {
-     userId = data._id;
-      userInfo.setUserInfo({
-        human: data.name,
-        occupation: data.about,
-        avatar: data.avatar,
-      });
+    userId = data._id;
+    userInfo.setUserInfo({
+      human: data.name,
+      occupation: data.about,
+      avatar: data.avatar,
+    });
   });
   profileEditPopup.close();
 };
