@@ -45,8 +45,8 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: "example3",
-        about: "5555",
+        name: data.human,
+        about: data.occupation,
       }),
     }).then((res) => this._checkError(res));
   }
