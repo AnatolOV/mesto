@@ -128,6 +128,8 @@ const setUserInfo = api
 // // чтобы все информация загружалась одновременно
 // Promise.all([userInfo, elementaryCards]).then(() => cardList.renderItems());
 
+
+// редактирование данных пользователя
 const handleFormSubmitEdit = (data) => {
   console.log('research');
   api.editUserInfo(data).then((data) => {
