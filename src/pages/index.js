@@ -131,12 +131,7 @@ const setUserInfo = api
 const handleFormSubmitEdit = (data) => {
   console.log(data);
   api.editUserInfo(data).then(
-    console.log("запись новых данных"),
-    userInfo.setUserInfo({
-      human: data.name,
-      occupation: data.about,
-      avatar: data.avatar,
-    })
+  
   );
 
   profileEditPopup.close();
