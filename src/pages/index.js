@@ -1,4 +1,5 @@
 import "./index.css";
+import PopupWithSubmit from "../components/PopupWithSubmit.js";
 import Card from "../components/Card.js";
 import Popup from "../components/Popup.js";
 import FormValidator from "../components/FormValidator.js";
@@ -22,6 +23,9 @@ import {
   selectorName,
   selectorOccupation,
   selectorAvatar,
+  likeQuantity,
+  popupShure,
+  shureButton,
 } from "../utils/constants.js";
 import Api from "../components/Api.js";
 
@@ -58,11 +62,29 @@ const popupImage = new PopupWithImage("#photo");
 popupImage.setEventListeners();
 
 let sectionClass;
-const initCards = api.getInitialCards().then(function (data) {
-  sectionClass = new Section({ items: data }, ".elements");
+api.getInitialCards().then(function (data) {
+  
+  sectionClass = new Section(
+    { items: data, elem: data.reverse() },
+    ".elements"
+  );
   sectionClass.renderItems({
     renderer: (e) => {
-      sectionClass.addItem(createCard(e));
+      sectionClass.addItem(createCard(e));    
+      document.querySelector(".elements__bin").addEventListener("click", () => {
+        popWithSubmit.open();
+        popWithSubmit.setEventListeners();
+        shureButton.addEventListener("click", () => {
+          document.querySelector(".elements__element").remove();
+          api.deleteCard(e._id);
+          popWithSubmit.close()
+        });
+      });
+      if (e.owner._id !== "f09e13c82670c28e9e23fe17") {
+        document.querySelector(".elements__bin").remove();
+      }
+      const numberLikes = document.querySelector(".elements__likequantity"); //отображение количества лайков на каждой карточке
+      numberLikes.textContent = e.likes.length;
     },
   });
 });
@@ -72,38 +94,61 @@ const initCards = api.getInitialCards().then(function (data) {
 
 function createCard(item) {
   const cardElement = new Card(item, objectOfSettings, () => {
-    const { classOfImgInCard } = objectOfSettings;
+    console.log("func");
+    const { classOfImgInCard} =
+      objectOfSettings;
+
     const cardImg = cardElement.querySelector(`.${classOfImgInCard}`);
     popupImage.open(cardImg.alt, cardImg.src);
   }).generateCard();
 
   return cardElement;
 }
-
+// поп ап подтверждения
+const popWithSubmit = new PopupWithSubmit("#shure");
+console.log(popWithSubmit);
+// функция для добавления новой картинки
 const handleFormSubmitAdd = (item) => {
   console.log("функция добавить картинку");
-  console.log(item);
-  api.postNewCard(item)
-  initCards()
-  // .then((item) => sectionClass.addItem(createCard(item)));
-
-  // sectionClass.addItem(createCard(item));
+  
+  api.postNewCard(item);
   popupAddCard.close();
+  api.getInitialCards();
+  api.getInitialCards().then(function (data) {
+    sectionClass = new Section(
+      { items: data, elem: data.reverse() },
+      ".elements"
+    );
+    sectionClass.renderItems({
+      renderer: (e) => {
+        sectionClass.addItem(createCard(e));
+        document
+          .querySelector(".elements__bin")
+          .addEventListener("click", () => {
+            popWithSubmit.open();
+            popWithSubmit.setEventListeners();
+            shureButton.addEventListener("click", () => {
+              document.querySelector(".elements__element").remove();
+              api.deleteCard(e._id);
+              popWithSubmit.close();
+            });
+          });
+        if (e.owner._id !== "f09e13c82670c28e9e23fe17") {
+          document.querySelector(".elements__bin").remove();
+        }
+        const numberLikes = document.querySelector(".elements__likequantity"); //отображение количества лайков на каждой карточке
+        numberLikes.textContent = e.likes.length;
+      },
+    });
+  });
 };
-// метод добавляет карточки на страницу
-// postNewCard(data) {
-//   return fetch(`${this._url}/cards`, {
-//     method: "POST",
-//     headers: this._headers,
-//     body: JSON.stringify(data),
-//   }).then((res) => this._checkError(res));
-// }
 
 const popupAddCard = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitAdd },
   "#add"
 );
 popupAddCard.setEventListeners();
+///////////////////////////////////////////////
 
 function addCardButtonCallback() {
   // console.log(9)
@@ -153,6 +198,8 @@ const handleFormSubmitEdit = (data) => {
   });
   profileEditPopup.close();
 };
+
+
 
 const profileEditPopup = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitEdit },
