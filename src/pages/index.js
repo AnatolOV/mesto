@@ -194,6 +194,7 @@ const handleFormSubmitAdd = (item) => {
           popWithSubmit.close();
         });
       });
+      addLikeToPage(data)
     });
   popupAddCard.close();
 };
