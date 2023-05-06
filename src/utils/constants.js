@@ -12,7 +12,6 @@ export const popupEditFieldName = document.querySelector(".pop-up__field_name_hu
 export const popupEditFieldProfession = document.querySelector(
   ".pop-up__field_name_occupation"
 );
-export const likeQuantity = document.querySelector(".elements__containerfornumber");
 //массив с настройками валидации
 export const arrOfSettings = {
   formSelector: '.pop-up__form',
@@ -37,13 +36,15 @@ export const objectOfSettings = {
   classnameOfShureButton: "pop-up__shure-button",
   classForOpenPopup: "pop-up__open",
 };
-// export const popupShure = document.querySelector("#shure");
-// export const shureButton = popupShure.querySelector(".pop-up__shure-button");
+
 export const selectorName = '.profile__name';
 export const selectorOccupation = '.profile__profession';
 export const selectorAvatar = ".profile__photo";
 export const inputHumanField = document.querySelector("#human-input"); // поля ввода
 export const inputProfessionField = document.querySelector("#occupation-input");
 
-// export const popupShure = document.querySelector("#shure");
+export const inputAvatarPhotoField = document.querySelector("[name = avatarPhoto]");
+export const editAvatarButton = document.querySelector(".profile__pen");
+export const submitButtonAvatar = document.querySelector('.pop-up__save-avatar');
+
 export const shureButton = document.querySelector(".pop-up__shure-button");

@@ -12,7 +12,6 @@ export default class Card {
       `.${this._objectOfSettings.classNameOfImgInPopup}`
     );
     this._classForOpenPopup = this._objectOfSettings.classForOpenPopup;
-    
   }
 
   _getTemplate() {
@@ -24,7 +23,6 @@ export default class Card {
   }
 
   generateCard() {
-    
     this.element = this._getTemplate();
     this.cardImage = this.element.querySelector(
       `.${this._objectOfSettings.classOfImgInCard}`
@@ -45,11 +43,13 @@ export default class Card {
     return this.element;
   }
 
-  _handleCardLike() {
-    this.likeButton.classList.toggle(
-      `${this._objectOfSettings.classLikeButtonActive}`
-    );
-  }
+  // _handleCardLike() {
+  //   this.likeButton.classList.toggle(
+  //     `${this._objectOfSettings.classLikeButtonActive}`
+  //   );
+
+  // }
+  
   _handleDelete() {
     this.cardElement.remove();
   }
@@ -57,9 +57,7 @@ export default class Card {
   _setEventListeners() {
     this.cardImage.addEventListener("click", () => {
       this._handleCardClick();
-      
     });
-    this.likeButton.addEventListener("click", () => this._handleCardLike());
-    
+    // this.likeButton.addEventListener("click", () => this._handleCardLike());
   }
 }
