@@ -37,6 +37,7 @@
 @import url(../blocks/pop-up/__input-error-first/pop-up__input-error-first.css);
 @import url(../blocks/pop-up/__input-error-second/pop-up__input-error-second.css);
 @import url(../blocks/pop-up/__save/__save_inactive/pop-up__save_inactive.css);
+@import url(../blocks/pop-up/__input-error-avatar/pop-up__input-error-avatar.css);
 @import url(../blocks/profile/profile.css);
 @import url(../blocks/profile/__profession/profile__profession.css);
 @import url(../blocks/profile/__photo/profile__photo.css);

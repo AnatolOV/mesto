@@ -26,6 +26,8 @@ import {
   submitButtonAvatar,
   editAvatarButton,
   shureButton,
+  popUpEditSaveButton,
+  popUpAddBoxSaveButton,
 } from "../utils/constants.js";
 import Api from "../components/Api.js";
 
@@ -34,7 +36,7 @@ popUpAddNamePlace.placeholder = "Название";
 popUpAddReferenceImage.placeholder = "Ссылка на картинку";
 popupEditFieldProfession.placeholder = "Вид деятельности";
 popupEditFieldName.placeholder = "ФИО";
-inputAvatarPhotoField.placeholder = "Ссылка на фото"
+inputAvatarPhotoField.placeholder = "Ссылка на фото";
 
 // объект с персональными данными для Api
 const apiData = {
@@ -46,7 +48,26 @@ const apiData = {
 };
 // объект класса Api
 const api = new Api(apiData);
+let userId;
+// console.log(userId)
 
+// данные пользователя запрос на сервер
+
+const setUserInfo = api
+  .getInfo()
+  .then((data) => {
+    userId = data._id;
+    // console.log(data)
+    userInfo.setUserInfo({
+      human: data.name,
+      occupation: data.about,
+      avatar: data.avatar,
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+// console.log(userId);
 //формы для валидации
 const addFormElement = document.querySelector("#add");
 const editFormElement = document.querySelector("#edit");
@@ -71,21 +92,19 @@ validationAvatarForm.enableValidation();
 const profileEditAvatar = new PopupWithForm(
   {
     handleFormSubmit: (data) => {
+      submitButtonAvatar.textContent = "Сохранение...";
       api
         .patchAvatarInfo({ avatar: data.avatarPhoto }) // это метод класса Api
         .then((info) => {
-          // console.log(info);
-          submitButtonAvatar.textContent = "Сохранение...";
           userInfo.setUserInfo({ avatar: info.avatar }); // это метод из класса UserInfo. profilePopup - экземпляр класса UserInfo
         })
         .then(() => {
           profileEditAvatar.close();
-          validationAvatarForm.resetValidation();
         })
         .catch((err) => console.log(err))
-      .finally(() => {
-        submitButtonAvatar.textContent = "Сохранить";
-      });
+        .finally(() => {
+          submitButtonAvatar.textContent = "Сохранить";
+        });
     },
   },
   "#edit-avatar"
@@ -94,6 +113,7 @@ profileEditAvatar.setEventListeners();
 
 editAvatarButton.addEventListener("click", () => {
   // console.log("форма редактирования аватара");
+  validationAvatarForm.resetValidation();
   profileEditAvatar.open();
 });
 
@@ -107,23 +127,7 @@ function drawing(data) {
     ".elements"
   );
   sectionClass.renderItems({
-    renderer: (e) => {
-      sectionClass.addItem(createCard(e));
-      const bin = document.querySelector(".elements__bin");
-      bin.addEventListener("click", () => {
-        popWithSubmit.open();
-        popWithSubmit.setEventListeners();
-        shureButton.addEventListener("click", () => {
-          bin.closest(".elements__element").remove();
-          api.deleteCard(e._id);
-          popWithSubmit.close();
-        });
-      });
-      if (e.owner._id !== "f09e13c82670c28e9e23fe17") {
-        document.querySelector(".elements__bin").remove();
-      }
-      addLikeToPage(e);
-    },
+    renderer: (e) => drawElement(e),
   });
 }
 
@@ -144,7 +148,7 @@ function addLikeToPage(e) {
   //окрашивание сердечек при загрузке
   const color = e.likes.forEach((el) => {
     //проверяем есть ли уже мой лайк на карточках, если есть, красим сердце
-    if (el._id == "f09e13c82670c28e9e23fe17") {
+    if (el._id == userId) {
       likeElement.classList.toggle("elements__like_active");
     }
   });
@@ -167,7 +171,7 @@ function addLikeToPage(e) {
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
 function createCard(item) {
-  const cardElement = new Card(item, objectOfSettings, () => {
+  const cardElement = new Card(item, userId, objectOfSettings, () => {
     const { classOfImgInCard } = objectOfSettings;
     const cardImg = cardElement.querySelector(`.${classOfImgInCard}`);
     popupImage.open(cardImg.alt, cardImg.src);
@@ -177,27 +181,68 @@ function createCard(item) {
 // поп ап подтверждения
 const popWithSubmit = new PopupWithSubmit("#shure");
 
+////функция для отрисовки элемента
+
+function drawElement(data) {
+  const el = createCard(data);
+  
+  // console.log(el)
+  sectionClass.addItem(el);
+  const bin = document.querySelector(".elements__bin");
+  
+  const removeBin = () => {
+    bin.closest(".elements__element").remove();
+    api.deleteCard(data._id);
+    shureButton.removeEventListener("click", removeBin);
+    popWithSubmit.close();
+  };
+
+  bin.addEventListener("click", () => {
+    popWithSubmit.open();
+    popWithSubmit.setEventListeners();
+    shureButton.addEventListener("click", removeBin);
+  });
+
+  addLikeToPage(data);
+
+  if (data.owner._id !== userId) {
+    document.querySelector(".elements__bin").remove();
+  }
+  addLikeToPage(data);
+}
+
 ///////////////////// функция для добавления новой карточки////////////////
 
 const handleFormSubmitAdd = (item) => {
-  api
-    .postNewCard(item)
-    .then((data) => {
-      sectionClass.addItem(createCard(data));
-      const bin = document.querySelector(".elements__bin");
-      bin.addEventListener("click", () => {
-        popWithSubmit.open();
-        popWithSubmit.setEventListeners();
-        shureButton.addEventListener("click", () => {
-          bin.closest(".elements__element").remove();
-          api.deleteCard(data._id);
-          popWithSubmit.close();
-        });
-      });
-      addLikeToPage(data)
+  popUpAddBoxSaveButton.textContent = "Сохранение...";
+  api.postNewCard(item).then((data) => {
+    const el = createCard(data);
+    sectionClass.addItem(el);
+    const bin = document.querySelector(".elements__bin");
+
+    const removeBin = (e) => {
+      bin.closest(".elements__element").remove();
+      api.deleteCard(data._id);
+      // console.log(555);
+      shureButton.removeEventListener("click", removeBin);
+      popWithSubmit.close();
+    };
+
+    bin.addEventListener("click", () => {
+      popWithSubmit.open();
+      popWithSubmit.setEventListeners();
+      shureButton.addEventListener("click", removeBin);
     });
+
+    addLikeToPage(data);
+    popUpAddBoxSaveButton.textContent = "Создать";
+  });
+
   popupAddCard.close();
 };
+// console.log(el);
+// const newCardId = document.getElementById(`${data._id}`);
+// console.log(newCardId);
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
 const popupAddCard = new PopupWithForm(
@@ -209,6 +254,7 @@ popupAddCard.setEventListeners();
 
 function addCardButtonCallback() {
   popupAddCard.open();
+
   validationAddForm.resetValidation();
 }
 
@@ -223,34 +269,19 @@ const userInfo = new UserInfo({
   profileAvatar: selectorAvatar,
 });
 
-// данные пользователя запрос на сервер
-let userId;
-const setUserInfo = api
-  .getInfo()
-  .then((data) => {
-    userId = data._id;
-    userInfo.setUserInfo({
-      human: data.name,
-      occupation: data.about,
-      avatar: data.avatar,
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
 // редактирование данных пользователя
 const handleFormSubmitEdit = (data) => {
+  popUpEditSaveButton.textContent = "Сохранение...";
   api
     .editUserInfo(data)
     .then((data) => {
-      
       userId = data._id;
       userInfo.setUserInfo({
         human: data.name,
         occupation: data.about,
         avatar: data.avatar,
       });
+      popUpEditSaveButton.textContent = "Сохранить";
     })
     .catch((err) => console.log(err));
   profileEditPopup.close();
@@ -267,8 +298,15 @@ function profileEditButtonCallback(dat) {
   inputHumanField.value = dat.human;
   inputProfessionField.value = dat.occupation;
 }
-profileEditButton.addEventListener("click", () =>
-  profileEditButtonCallback(userInfo.getUserInfo())
-); // открытие попап Редактировать профиль
+profileEditButton.addEventListener("click", () => {
+  validationEditForm.resetValidation();
+  profileEditButtonCallback(userInfo.getUserInfo());
+}); // открытие попап Редактировать профиль
 
 ///////////////////////////////////////////////////////////////////////////////////////////
+// чтобы все информация загружалась одновременно
+Promise.all([setUserInfo, draw]).then(() =>
+  sectionClass.renderItems({
+    renderer: (e) => drawElement(e),
+  })
+);

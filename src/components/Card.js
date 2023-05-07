@@ -1,9 +1,9 @@
 export default class Card {
-  
-  constructor(data, objectOfSettings, handleCardClick) {
+  constructor(data, userId, objectOfSettings, handleCardClick) {
     this._objectOfSettings = objectOfSettings;
     this._link = data.link || data.reference;
     this._name = data.name;
+    this._id = data._id;
     this._handleCardClick = handleCardClick;
     this.imageInPopUp = document.querySelector(
       `.${this._objectOfSettings.classImgInPopUp}`
@@ -12,6 +12,7 @@ export default class Card {
       `.${this._objectOfSettings.classNameOfImgInPopup}`
     );
     this._classForOpenPopup = this._objectOfSettings.classForOpenPopup;
+    this._userId = userId;
   }
 
   _getTemplate() {
@@ -40,16 +41,23 @@ export default class Card {
       `.${this._objectOfSettings.classRemoveCardButton}`
     );
     this._setEventListeners();
+    // console.log(this._userId)
+    
+    this.element.id = this._id
     return this.element;
   }
-
+  // получаем id
+  getId() {
+    console.log(this._data._id)
+    return this._data._id;
+  }
   // _handleCardLike() {
   //   this.likeButton.classList.toggle(
   //     `${this._objectOfSettings.classLikeButtonActive}`
   //   );
 
   // }
-  
+
   _handleDelete() {
     this.cardElement.remove();
   }

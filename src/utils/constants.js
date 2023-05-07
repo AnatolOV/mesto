@@ -1,14 +1,20 @@
 export const profileEditButton = document.querySelector('.profile__edit-button');
 export const popUpAddBox = document.querySelector('#add');
+export const popUpAddBoxSaveButton = popUpAddBox.querySelector('.pop-up__save');
 export const addCardsButton = document.querySelector('.profile__add-button');
 
 export const popUpAddNamePlace = popUpAddBox.querySelector(
   '.pop-up__field_name_place'
 );
+
 export const popUpAddReferenceImage = popUpAddBox.querySelector(
   '.pop-up__field_reference_image'
 );
+
+export const popUpEdit = document.querySelector("#edit");
+export const popUpEditSaveButton = popUpEdit.querySelector(".pop-up__save");
 export const popupEditFieldName = document.querySelector(".pop-up__field_name_human");
+
 export const popupEditFieldProfession = document.querySelector(
   ".pop-up__field_name_occupation"
 );
