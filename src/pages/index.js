@@ -133,9 +133,9 @@ function drawing(data) {
 
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
 let sectionClass;
-const draw = api.getInitialCards().then((data) => {
-  drawing(data);
-});
+// const draw = api.getInitialCards().then((data) => {
+//   drawing(data);
+// });
 
 ////////////    функция для добавления лайков ///////////
 function addLikeToPage(e) {
@@ -303,8 +303,10 @@ profileEditButton.addEventListener("click", () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // чтобы все информация загружалась одновременно
-Promise.all([setUserInfo, draw]).then(() =>
-  sectionClass.renderItems({
-    renderer: (e) => drawElement(e),
-  })
-);
+Promise.all([
+  setUserInfo,
+  api.getInitialCards().then((data) => {
+    drawing(data);
+  }),
+])
+
