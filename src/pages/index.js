@@ -102,9 +102,9 @@ const profileEditAvatar = new PopupWithForm(
           profileEditAvatar.close();
         })
         .catch((err) => console.log(err))
-        .finally(() => {
-          submitButtonAvatar.textContent = "Сохранить";
-        });
+        // .finally(() => {
+        //   submitButtonAvatar.textContent = "Сохранить";
+        // });
     },
   },
   "#edit-avatar"
