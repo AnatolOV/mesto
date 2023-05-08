@@ -185,11 +185,11 @@ const popWithSubmit = new PopupWithSubmit("#shure");
 
 function drawElement(data) {
   const el = createCard(data);
-  
+
   // console.log(el)
   sectionClass.addItem(el);
   const bin = document.querySelector(".elements__bin");
-  
+
   const removeBin = () => {
     bin.closest(".elements__element").remove();
     api.deleteCard(data._id);
@@ -202,8 +202,6 @@ function drawElement(data) {
     popWithSubmit.setEventListeners();
     shureButton.addEventListener("click", removeBin);
   });
-
-  addLikeToPage(data);
 
   if (data.owner._id !== userId) {
     document.querySelector(".elements__bin").remove();
