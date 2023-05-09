@@ -100,6 +100,7 @@ const profileEditAvatar = new PopupWithForm(
         })
         .then(() => {
           profileEditAvatar.close();
+          submitButtonAvatar.textContent = "Сохранить";
         })
         .catch((err) => console.log(err))
         // .finally(() => {
