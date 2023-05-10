@@ -28,6 +28,8 @@ export default class Card {
     this._classForOpenPopup = this._objectOfSettings.classForOpenPopup;
     this._userId = userId;
     this._owner = data.owner._id;
+    this._classActiveForColorHeart = this._objectOfSettings.classActiveForColorHeart;
+    this._classForDisplayBin = this._objectOfSettings.classForDisplayBin;
   }
 
   _getTemplate() {
@@ -65,9 +67,6 @@ export default class Card {
     this.likeCounter.textContent = this._likes.length;
     this._checkOwner();
     this._checkLikeOwner();
-    // this.deleteEl = if(deleteEl)
-    // {this.element.querySelector(".elements__bin")};
-
     // console.log(this.element);
 
     return this.element;
@@ -75,14 +74,15 @@ export default class Card {
   // проверяем пользователя
   _checkOwner() {
     if (this._owner == this._userId) {
-      this.elementRemove.classList.add("elements__bin_active");
+      this.elementRemove.classList.add(`${this._classForDisplayBin}`);
     }
   }
+  
   // проверяем есть ли мой лайк на карточке
   _checkLikeOwner() {
     // метод some проверяет условие
     if (this._likes.some((user) => this._userId === user._id)) {
-      this.likeButton.classList.toggle("elements__like_active");
+      this.likeButton.classList.toggle(`${this._classActiveForColorHeart}`);
     }
   }
   // получаем id
@@ -99,7 +99,7 @@ export default class Card {
   toggleLikeCard(data) {
     this._likes = data.likes;
     this.likeCounter.textContent = this._likes.length;
-    this.likeButton.classList.toggle("elements__like_active");
+    this.likeButton.classList.toggle(`${this._classActiveForColorHeart}`);
   }
 
   _setEventListeners() {
@@ -107,8 +107,10 @@ export default class Card {
       this._handleCardClick();
     });
     this.likeButton.addEventListener("click", () => {
-      if (this.likeButton.classList.contains("elements__like_active")) {
-         this.handleDeleteLikeCard(this);
+      if (
+        this.likeButton.classList.contains(`${this._classActiveForColorHeart}`)
+      ) {
+        this.handleDeleteLikeCard(this);
       } else {
         this.handleLikeCard(this);
       }

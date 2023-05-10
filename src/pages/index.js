@@ -71,14 +71,13 @@ const validationEditForm = new FormValidator(arrOfSettings, editFormElement);
 validationEditForm.enableValidation();
 
 ///////новый поп ап аватар
-
 const validationAvatarForm = new FormValidator(
   arrOfSettings,
   editAvatarElement
 );
 validationAvatarForm.enableValidation();
 
-// // попап аватара
+
 const profileEditAvatar = new PopupWithForm(
   {
     handleFormSubmit: (data) => {
@@ -90,12 +89,11 @@ const profileEditAvatar = new PopupWithForm(
         })
         .then(() => {
           profileEditAvatar.close();
-          submitButtonAvatar.textContent = "Сохранить";
         })
-        .catch((err) => console.log(err));
-      // .finally(() => {
-      //   submitButtonAvatar.textContent = "Сохранить";
-      // });
+        .catch((err) => console.log(err))
+        .finally(() => {
+          submitButtonAvatar.textContent = "Сохранить";
+        });
     },
   },
   "#edit-avatar"
@@ -103,7 +101,6 @@ const profileEditAvatar = new PopupWithForm(
 profileEditAvatar.setEventListeners();
 
 editAvatarButton.addEventListener("click", () => {
-  // console.log("форма редактирования аватара");
   validationAvatarForm.resetValidation();
   profileEditAvatar.open();
 });
@@ -147,7 +144,6 @@ function handleDeleteLikeCard(item) {
     });
 }
 
-
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
 function createCard(item) {
@@ -168,48 +164,42 @@ function createCard(item) {
 }
 // поп ап подтверждения
 const popWithSubmit = new PopupWithSubmit("#shure");
+popWithSubmit.setEventListeners();
 
 ////функция для отрисовки элемента
-
 function drawElement(data) {
-  const el = createCard(data);
-  sectionClass.addItem(el);  
-  // addLikeToPage(data);
+  sectionClass.addItem(createCard(data));
 }
 
 ///////////////////// функция для добавления новой карточки////////////////
-
 const handleFormSubmitAdd = (item) => {
   popUpAddBoxSaveButton.textContent = "Сохранение...";
-  api.postNewCard(item).then((data) => {
-    const el = createCard(data);
-    sectionClass.addItem(el);
-    const bin = document.querySelector(".elements__bin");
-
-    // addLikeToPage(data);
-    popUpAddBoxSaveButton.textContent = "Создать";
-  });
-
-  popupAddCard.close();
+  api
+    .postNewCard(item)
+    .then((data) => {
+      sectionClass.addItem(createCard(data));
+      popupAddCard.close();
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+    .finally(() => {
+      popUpAddBoxSaveButton.textContent = "Создать";
+    });
 };
-// console.log(el);
-// const newCardId = document.getElementById(`${data._id}`);
-// console.log(newCardId);
-////////////////////////////////////////////////////////////////////////////////////////////////
 
+////////////////////////////////////////////////////////////////////////////////////////////////
 const popupAddCard = new PopupWithForm(
   { handleFormSubmit: handleFormSubmitAdd },
   "#add"
 );
 popupAddCard.setEventListeners();
-///////////////////////////////////////////////
 
+///////////////////////////////////////////////
 function addCardButtonCallback() {
   popupAddCard.open();
-
   validationAddForm.resetValidation();
 }
-
 addCardsButton.addEventListener("click", addCardButtonCallback); // открытие попап Добавить картинку
 
 /////////////////////////////////////////////////////////////////////
@@ -233,10 +223,12 @@ const handleFormSubmitEdit = (data) => {
         occupation: data.about,
         avatar: data.avatar,
       });
-      popUpEditSaveButton.textContent = "Сохранить";
+      profileEditPopup.close();
     })
-    .catch((err) => console.log(err));
-  profileEditPopup.close();
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popUpEditSaveButton.textContent = "Сохранить";
+    });
 };
 
 const profileEditPopup = new PopupWithForm(
@@ -245,14 +237,14 @@ const profileEditPopup = new PopupWithForm(
 );
 profileEditPopup.setEventListeners();
 
-function profileEditButtonCallback(dat) {
+function editProfileButtonCallback(dat) {
   profileEditPopup.open();
   inputHumanField.value = dat.human;
   inputProfessionField.value = dat.occupation;
 }
 profileEditButton.addEventListener("click", () => {
   validationEditForm.resetValidation();
-  profileEditButtonCallback(userInfo.getUserInfo());
+  editProfileButtonCallback(userInfo.getUserInfo());
 }); // открытие попап Редактировать профиль
 
 ///////////////////////////////////////////////////////////////////////////////////////////
