@@ -1,10 +1,24 @@
 export default class Card {
-  constructor(data, userId, objectOfSettings, handleCardClick) {
+  constructor(
+    data,
+    userId,
+    objectOfSettings,
+    handleCardClick,
+    handleDeleteCard,
+    handleLikeCard,
+    handleDeleteLikeCard
+  ) {
     this._objectOfSettings = objectOfSettings;
+    this._data = data;
     this._link = data.link || data.reference;
     this._name = data.name;
+    this._likes = data.likes;
     this._id = data._id;
+    this._owner = data.owner._id;
     this._handleCardClick = handleCardClick;
+    this.handleDeleteCard = handleDeleteCard;
+    this.handleLikeCard = handleLikeCard;
+    this.handleDeleteLikeCard = handleDeleteLikeCard;
     this.imageInPopUp = document.querySelector(
       `.${this._objectOfSettings.classImgInPopUp}`
     );
@@ -13,6 +27,7 @@ export default class Card {
     );
     this._classForOpenPopup = this._objectOfSettings.classForOpenPopup;
     this._userId = userId;
+    this._owner = data.owner._id;
   }
 
   _getTemplate() {
@@ -42,30 +57,64 @@ export default class Card {
     );
     this._setEventListeners();
     // console.log(this._userId)
-    
-    this.element.id = this._id
+
+    this.element.id = this._id;
+    this.likeCounter = this.element.querySelector(
+      `.${this._objectOfSettings.classLikeCounter}`
+    );
+    this.likeCounter.textContent = this._likes.length;
+    this._checkOwner();
+    this._checkLikeOwner();
+    // this.deleteEl = if(deleteEl)
+    // {this.element.querySelector(".elements__bin")};
+
+    // console.log(this.element);
+
     return this.element;
+  }
+  // проверяем пользователя
+  _checkOwner() {
+    if (this._owner == this._userId) {
+      this.elementRemove.classList.add("elements__bin_active");
+    }
+  }
+  // проверяем есть ли мой лайк на карточке
+  _checkLikeOwner() {
+    // метод some проверяет условие
+    if (this._likes.some((user) => this._userId === user._id)) {
+      this.likeButton.classList.toggle("elements__like_active");
+    }
   }
   // получаем id
   getId() {
-    console.log(this._data._id)
     return this._data._id;
   }
-  // _handleCardLike() {
-  //   this.likeButton.classList.toggle(
-  //     `${this._objectOfSettings.classLikeButtonActive}`
-  //   );
 
-  // }
-
-  _handleDelete() {
+  // удаление
+  remove() {
     this.cardElement.remove();
+    this.cardElement = null;
+  }
+  // добавляем или убираем лайк
+  toggleLikeCard(data) {
+    this._likes = data.likes;
+    this.likeCounter.textContent = this._likes.length;
+    this.likeButton.classList.toggle("elements__like_active");
   }
 
   _setEventListeners() {
     this.cardImage.addEventListener("click", () => {
       this._handleCardClick();
     });
-    // this.likeButton.addEventListener("click", () => this._handleCardLike());
+    this.likeButton.addEventListener("click", () => {
+      if (this.likeButton.classList.contains("elements__like_active")) {
+         this.handleDeleteLikeCard(this);
+      } else {
+        this.handleLikeCard(this);
+      }
+    });
+    this.elementRemove.addEventListener("click", () => {
+      this.handleDeleteCard(this);
+    });
   }
 }

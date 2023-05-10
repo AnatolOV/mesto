@@ -31,12 +31,19 @@ import {
 } from "../utils/constants.js";
 import Api from "../components/Api.js";
 
-// добавляем подпись-placeholder к полям ввода
-popUpAddNamePlace.placeholder = "Название";
-popUpAddReferenceImage.placeholder = "Ссылка на картинку";
-popupEditFieldProfession.placeholder = "Вид деятельности";
-popupEditFieldName.placeholder = "ФИО";
-inputAvatarPhotoField.placeholder = "Ссылка на фото";
+function handleDeleteCard(item) {
+  popWithSubmit.open(() => {
+    api
+      .deleteCard(item.getId())
+      .then(() => {
+        item.remove();
+        popWithSubmit.close();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  });
+}
 
 // объект с персональными данными для Api
 const apiData = {
@@ -51,23 +58,6 @@ const api = new Api(apiData);
 let userId;
 // console.log(userId)
 
-// данные пользователя запрос на сервер
-
-const setUserInfo = api
-  .getInfo()
-  .then((data) => {
-    userId = data._id;
-    // console.log(data)
-    userInfo.setUserInfo({
-      human: data.name,
-      occupation: data.about,
-      avatar: data.avatar,
-    });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-// console.log(userId);
 //формы для валидации
 const addFormElement = document.querySelector("#add");
 const editFormElement = document.querySelector("#edit");
@@ -102,10 +92,10 @@ const profileEditAvatar = new PopupWithForm(
           profileEditAvatar.close();
           submitButtonAvatar.textContent = "Сохранить";
         })
-        .catch((err) => console.log(err))
-        // .finally(() => {
-        //   submitButtonAvatar.textContent = "Сохранить";
-        // });
+        .catch((err) => console.log(err));
+      // .finally(() => {
+      //   submitButtonAvatar.textContent = "Сохранить";
+      // });
     },
   },
   "#edit-avatar"
@@ -134,49 +124,46 @@ function drawing(data) {
 
 ///////////Первоначальная Отрисовка Массива Карточек/////////////////
 let sectionClass;
-// const draw = api.getInitialCards().then((data) => {
-//   drawing(data);
-// });
-
-////////////    функция для добавления лайков ///////////
-function addLikeToPage(e) {
-  const likeElement = document.querySelector(".elements__like");
-  const numberLikes = document.querySelector(".elements__likequantity"); //отображение количества лайков на каждой карточке
-  const numberOfLikes = likeElement
-    .closest(".elements__container")
-    .querySelector(".elements__likequantity");
-  numberLikes.textContent = e.likes.length;
-  //окрашивание сердечек при загрузке
-  const color = e.likes.forEach((el) => {
-    //проверяем есть ли уже мой лайк на карточках, если есть, красим сердце
-    if (el._id == userId) {
-      likeElement.classList.toggle("elements__like_active");
-    }
-  });
-  //ставим лайки
-  likeElement.addEventListener("click", () => {
-    if (likeElement.className == "elements__like elements__like_active") {
-      api.deleteLike(e._id).then((data) => {
-        likeElement.classList.toggle("elements__like_active");
-        numberOfLikes.textContent = data.likes.length;
-      });
-    } else {
-      api.getLike(e._id).then((data) => {
-        likeElement.classList.toggle("elements__like_active");
-        numberOfLikes.textContent = data.likes.length;
-      });
-    }
-  });
+// функция добавления лайка
+function handleLikeCard(item) {
+  api
+    .getLike(item.getId())
+    .then((data) => {
+      item.toggleLikeCard(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
+// функция удаления лайка
+function handleDeleteLikeCard(item) {
+  api
+    .deleteLike(item.getId())
+    .then((data) => {
+      item.toggleLikeCard(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
 
 ///////////////////////////// СОЗДАНИЕ ПОПАПОВ С ПОЛНЫМ ФУНКЦИОНАЛОМ //////////////////////////////////////////////
 // новый попап картинка
 function createCard(item) {
-  const cardElement = new Card(item, userId, objectOfSettings, () => {
-    const { classOfImgInCard } = objectOfSettings;
-    const cardImg = cardElement.querySelector(`.${classOfImgInCard}`);
-    popupImage.open(cardImg.alt, cardImg.src);
-  }).generateCard();
+  const cardElement = new Card(
+    item,
+    userId,
+    objectOfSettings,
+    () => {
+      const { classOfImgInCard } = objectOfSettings;
+      const cardImg = cardElement.querySelector(`.${classOfImgInCard}`);
+      popupImage.open(cardImg.alt, cardImg.src);
+    },
+    handleDeleteCard,
+    handleLikeCard,
+    handleDeleteLikeCard
+  ).generateCard();
   return cardElement;
 }
 // поп ап подтверждения
@@ -186,28 +173,8 @@ const popWithSubmit = new PopupWithSubmit("#shure");
 
 function drawElement(data) {
   const el = createCard(data);
-
-  // console.log(el)
-  sectionClass.addItem(el);
-  const bin = document.querySelector(".elements__bin");
-
-  const removeBin = () => {
-    bin.closest(".elements__element").remove();
-    api.deleteCard(data._id);
-    shureButton.removeEventListener("click", removeBin);
-    popWithSubmit.close();
-  };
-
-  bin.addEventListener("click", () => {
-    popWithSubmit.open();
-    popWithSubmit.setEventListeners();
-    shureButton.addEventListener("click", removeBin);
-  });
-
-  if (data.owner._id !== userId) {
-    document.querySelector(".elements__bin").remove();
-  }
-  addLikeToPage(data);
+  sectionClass.addItem(el);  
+  // addLikeToPage(data);
 }
 
 ///////////////////// функция для добавления новой карточки////////////////
@@ -219,21 +186,7 @@ const handleFormSubmitAdd = (item) => {
     sectionClass.addItem(el);
     const bin = document.querySelector(".elements__bin");
 
-    const removeBin = (e) => {
-      bin.closest(".elements__element").remove();
-      api.deleteCard(data._id);
-      // console.log(555);
-      shureButton.removeEventListener("click", removeBin);
-      popWithSubmit.close();
-    };
-
-    bin.addEventListener("click", () => {
-      popWithSubmit.open();
-      popWithSubmit.setEventListeners();
-      shureButton.addEventListener("click", removeBin);
-    });
-
-    addLikeToPage(data);
+    // addLikeToPage(data);
     popUpAddBoxSaveButton.textContent = "Создать";
   });
 
@@ -304,10 +257,17 @@ profileEditButton.addEventListener("click", () => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 // чтобы все информация загружалась одновременно
-Promise.all([
-  setUserInfo,
-  api.getInitialCards().then((data) => {
-    drawing(data);
-  }),
-])
 
+Promise.all([api.getInfo(), api.getInitialCards()])
+  .then(([userData, cards]) => {
+    userId = userData._id;
+    userInfo.setUserInfo({
+      human: userData.name,
+      occupation: userData.about,
+      avatar: userData.avatar,
+    });
+    drawing(cards);
+  })
+  .catch((err) => {
+    console.log(err);
+  });

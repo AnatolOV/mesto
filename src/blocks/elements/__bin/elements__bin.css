@@ -1,5 +1,6 @@
 .elements__bin {
     display: block;
+    visibility: hidden;
     border: none;
     width: 18px;
     height: 19px;

@@ -41,6 +41,8 @@ export const objectOfSettings = {
   idOfPopupShure: "shure",
   classnameOfShureButton: "pop-up__shure-button",
   classForOpenPopup: "pop-up__open",
+  classOfCardBin: "elements__bin",
+  classLikeCounter:"elements__likequantity",
 };
 
 export const selectorName = '.profile__name';

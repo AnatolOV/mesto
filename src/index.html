@@ -15,7 +15,7 @@
       <button class="pop-up__close" type="button"></button>
       <form action="submit" class="pop-up__form" novalidate name="editprofile">
         <h2 class="pop-up__name">Обновить аватар</h2>
-        <input type="url" required name="avatarPhoto" id="reference-input-photo" class="pop-up__field pop-up__field_reference_image" />
+        <input type="url" required name="avatarPhoto" id="reference-input-photo" placeholder="Ссылка на фото" class="pop-up__field pop-up__field_reference_image" />
         <span class="pop-up__input-error pop-up__input-error-avatar reference-input-photo-error"></span>
         <button class="pop-up__save pop-up__save-avatar" type="submit">Сохранить</button>
       </form>
@@ -26,10 +26,10 @@
       <button class="pop-up__close" type="button"></button>
       <form action="submit" class="pop-up__form" novalidate name="addCard">
         <h2 class="pop-up__name">Новое место</h2>
-        <input type="text" required minlength="2" maxlength="30" name="name" id="email-input"
+        <input type="text" required minlength="2" maxlength="30" name="name" id="email-input" placeholder="Название"
           class="pop-up__field pop-up__field_name_place" />
         <span class="pop-up__input-error pop-up__input-error-first email-input-error"></span>
-        <input type="url" required name="link" id="reference-input"
+        <input type="url" required name="link" id="reference-input" placeholder="Ссылка на картинку"
           class="pop-up__field pop-up__field_reference_image" />
         <span class="pop-up__input-error pop-up__input-error-second reference-input-error"></span>
         <button class="pop-up__save" type="submit">Создать</button>
@@ -41,10 +41,10 @@
       <button class="pop-up__close" type="button"></button>
       <form action="submit" class="pop-up__form" novalidate name="editprofile">
         <h2 class="pop-up__name">Редактировать профиль</h2>
-        <input type="text" required minlength="2" maxlength="40" name="human" id="human-input"
+        <input type="text" required minlength="2" maxlength="40" name="human" id="human-input" placeholder="ФИО"
           class="pop-up__field pop-up__field_name_human" />
         <span class="pop-up__input-error pop-up__input-error-first human-input-error"></span>
-        <input type="text" required minlength="2" maxlength="200" name="occupation" id="occupation-input"
+        <input type="text" required minlength="2" maxlength="200" name="occupation" id="occupation-input" placeholder="Вид деятельности"
           class="pop-up__field pop-up__field_name_occupation" />
         <span class="pop-up__input-error pop-up__input-error-second occupation-input-error"></span>
         <button class="pop-up__save" type="submit">Сохранить</button>
